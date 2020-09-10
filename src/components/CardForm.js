@@ -1,58 +1,117 @@
 import React, { Component } from 'react'
 import '../App.css'
+import Countries from '../data/countries.json'
 
 
 class CardForm extends Component {
     render() {
 
+        function donateNowButton(props) {
+            const isActive = props.isActive;
+            if (isActive) {
+                return <button className='buttonActivated'>Donar Ahora</button>;
+            }
+            return <button className='buttonDeactivated'>Donar Ahora</button>;
+        }
+
+
 
         return (
             < div className='box-big' >
+                <div>
+
+                    {/*poner logos de las tarjetas*/}
+                </div>
+
                 <div className='row'>
                     <div className='column-inner'>
                         <form className='box-small-inner'>
                             <h1 className='subtitle' >Información de tu tarjeta</h1>
                             <input
-                                id='fullName'
+                                id='cardNumber'
                                 type='text'
-                                name='fullName'
+                                name='cardNumber'
                                 className='form-input'
-                                placeholder='Tu nombre completo' />
+                                placeholder='Tu número de tarjeta' />
+
+                            <div className='row'>
+
+                                <input
+                                    id='expDate'
+                                    type='text'
+                                    name='expDate'
+                                    className='mmaa'
+                                    placeholder='MM/AA' />
+
+                                <input
+                                    id='cvv'
+                                    type='text'
+                                    name='cvv'
+                                    className='cvv'
+                                    placeholder='CVV' />
+                            </div>
+
                             <input
-                                id='idNumber'
+                                id='cardOwner'
                                 type='text'
-                                name='idNumber'
+                                name='cardOwner'
+                                className='form-input'
+                                placeholder='Titular de la tarjeta' />
+                            <input
+                                id='idOwnerNumber'
+                                type='text'
+                                name='idOwnerNumber'
                                 className='form-input'
                                 placeholder='Número de documento' />
                             <input
-                                id='email'
+                                id='ownerEmail'
                                 type='email'
-                                name='email'
+                                name='ownerEmail'
                                 className='form-input'
                                 placeholder='Correo electrónico' />
+
                         </form>
                     </div>
                     <div className='column-inner'>
-                        <form  className='box-small-inner'>
+                        <form className='box-small-inner'>
                             <h1 className='subtitle-blank' >Información de tu tarjeta</h1>
                             <input
-                                id='fullName'
+                                id='address'
                                 type='text'
-                                name='fullName'
+                                name='address'
                                 className='form-input'
-                                placeholder='Tu nombre completo' />
+                                placeholder='Dirección ' />
+                            <select className='form-input'
+                                id='country'
+                                name='country'>
+
+                                <option value="" defaultValue hidden>
+                                    País
+                                </option>
+                                {Countries.map((countriesDetail, index) => {
+                                    return <option>{countriesDetail.name} </option>
+                                })}
+                            </select>
                             <input
-                                id='idNumber'
+                                id='state'
                                 type='text'
-                                name='idNumber'
+                                name='state'
                                 className='form-input'
-                                placeholder='Número de documento' />
+                                placeholder='Departamento/Estado' />
                             <input
-                                id='email'
-                                type='email'
-                                name='email'
+                                id='city'
+                                type='text'
+                                name='city'
                                 className='form-input'
-                                placeholder='Correo electrónico' />
+                                placeholder='Ciudad' />
+                            <input
+                                id='phoneNumber'
+                                type='text'
+                                name='phoneNumber'
+                                className='form-input'
+                                placeholder='Número de teléfono' />
+                            <donateNowButton isActive={false} />
+
                         </form>
                     </div>
                 </div>
@@ -61,6 +120,7 @@ class CardForm extends Component {
         )
     }
 }
+
 
 export default CardForm
 

@@ -6,7 +6,17 @@
     font-family: 'Lato', sans-serif;
 }
 
+.buttonActivated {
+    width: 100px;
+    height: 50px;
+    background: #037EF3
+}
 
+.buttonDeactivated {
+    width: 100px;
+    height: 50px;
+    background: #F6F6F6;
+}
 
 .subtitle-blank {
     width: 100%;
@@ -71,6 +81,28 @@
 }
 
 @media only screen and (min-width:414px)and (max-width:768px) {
+    .cvv {
+        height: 50px;
+        width: 83px;
+        padding: 15px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        background: #F6F6F6;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        margin-left: 8px;
+    }
+    .mmaa {
+        margin-right: 8px;
+        height: 50px;
+        width: 244px;
+        padding: 15px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        background: #F6F6F6;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+    }
     .subtitle-blank {
         display: none;
     }
@@ -82,7 +114,6 @@
         width: 100%;
         background: #FFFFFF;
     }
-
     .box-big-invisible {
         width: 372px;
         height: min-content;
@@ -146,6 +177,28 @@
 }
 
 @media screen and (min-width:769px)and (max-width:1024px) {
+    .cvv {
+        height: 50px;
+        width: 134px;
+        padding: 15px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        background: #F6F6F6;
+        border: 1px solid #ccc;
+        margin-left: 12.5px;
+        border-radius: 10px;
+    }
+    .mmaa {
+        height: 50px;
+        width: 394px;
+        margin-right: 12.5px;
+        padding: 15px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        background: #F6F6F6;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+    }
     .column {
         width: 100%;
         background: #E4F2FF;
@@ -170,7 +223,6 @@
         left: 50%;
         transform: translate(-50%, 0%);
     }
-    
     .box-big-invisible {
         width: 600px;
         height: min-content;
@@ -221,7 +273,28 @@
 }
 
 @media screen and (min-width:1024px) {
-    
+    .cvv {
+        height: 50px;
+        width: 97px;
+        padding: 15px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        background: #F6F6F6;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        margin-left: 8px;
+    }
+    .mmaa {
+        margin-right: 8px;
+        height: 50px;
+        width: 291px;
+        padding: 15px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        background: #F6F6F6;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+    }
     .box-big-invisible {
         width: 887px;
         height: min-content;
@@ -280,7 +353,7 @@
         background: #ffffff;
         float: left;
         width: 50%;
-        padding: 10px;
+        padding: 0px;
         height: max-content;
     }
     .box-small {
