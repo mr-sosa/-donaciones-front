@@ -19,7 +19,6 @@ class CardForm extends Component {
         return (
             < div className='box-big' >
                 <div>
-
                     {/*poner logos de las tarjetas*/}
                 </div>
 

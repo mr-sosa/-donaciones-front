@@ -7,7 +7,8 @@ class DonatorForm extends Component {
 
 
         return (
-            < div className = 'box-small' >
+            < div className='box-small' >
+
                 <form className='form'>
                     <h1 className='subtitle' >Información del donante</h1>
                     <input

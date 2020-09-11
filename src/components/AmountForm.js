@@ -4,8 +4,6 @@ import '../App.css'
 
 class AmountForm extends Component {
     render() {
-
-
         return (
             < div className='box-small' >
                 <form className='form'>
