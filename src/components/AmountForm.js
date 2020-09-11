@@ -3,6 +3,23 @@ import '../App.css'
 
 
 class AmountForm extends Component {
+
+
+    constructor(props) {
+        super(props)
+        this.onChange = this.onChange.bind(this);
+    }
+
+
+    /*TODO */
+    onChange = event => {
+        let value = event.target.value
+        let key = event.target.name
+
+        this.props.callbackFromParent(key, value);
+    }
+
+
     render() {
         return (
             < div className='box-small' >
@@ -10,14 +27,16 @@ class AmountForm extends Component {
                     <h1 className='subtitle' >¿Cuánto vas a donar?</h1>
                     <input
                         id='amount'
-                        type='text'
-                        name='fullName'
+                        type='number'
+                        name='amount'
                         className='form-input'
-                        placeholder='Monto en pesos colombianos - COP' />
+                        placeholder='Monto en pesos colombianos - COP'
+                        onChange={this.onChange} />
                     <select className='form-input'
                         id='duration'
-                        name='duration'>
-                        <option value=""  defaultValue hidden>
+                        name='duration'
+                        onChange={this.onChange}>
+                        <option value="" defaultValue hidden>
                             Selecciona los meses de duración
                              </option>
                         <option value='12'>12 Meses</option>

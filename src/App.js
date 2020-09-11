@@ -9,21 +9,24 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      form: {
-
-      },
-
+      duration: '',
+      amount:''
     };
-
-
-    // se inicializan las funciones
-    //this.changeHandler = this.changeHandler.bind(this);
-    //   this.isRegistering = false;
+  }
+  myCallback = (key, value) => {
+    switch (key) {
+      case 'amount': this.setState({ amount: value }); break;
+      case 'duration' : this.setState({ duration: value }); break;
+      default: console.log('default'); break;
+    }
   }
 
 
   render() {
+    console.log(this.state.duration)
+    console.log(this.state.amount)
     return (
+
       <div className='all'>
 
         <img src={require('./data/414.png')} alt='' className='img414' />
@@ -35,7 +38,7 @@ class App extends Component {
           <div className='row'>
             <div className='column'>
               <h1 className='title'>Haz tu donación mensual </h1>
-              <AmountForm />
+              <AmountForm callbackFromParent={this.myCallback} />
             </div>
             <div className='column'>
 
