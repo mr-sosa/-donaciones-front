@@ -79,6 +79,7 @@
     width: 100%;
     background: #ffffff;
 }
+
 @media only screen and (min-width:0px)and (max-width:413px) {
     .img414 {
         display: none;
@@ -89,7 +90,7 @@
     .img1024 {
         display: none;
     }
-       .img1440 {
+    .img1440 {
         display: none;
     }
     .cvv {
@@ -120,7 +121,7 @@
         display: none;
     }
     .form-input {
-       display: none;
+        display: none;
     }
 }
 
@@ -139,7 +140,7 @@
     .img1024 {
         display: none;
     }
-       .img1440 {
+    .img1440 {
         display: none;
     }
     .cvv {
@@ -488,7 +489,7 @@
     }
 }
 
-@media screen and  (min-width:1440px) {
+@media screen and (min-width:1440px) {
     .img414 {
         display: none;
     }
@@ -506,7 +507,6 @@
         left: 50%;
         transform: translate(-50%, 0%);
     }
-    
     .cvv {
         height: 50px;
         width: 115px;
