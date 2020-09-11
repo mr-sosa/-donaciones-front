@@ -110,7 +110,7 @@ class CardForm extends Component {
                                 name='phoneNumber'
                                 className='form-input'
                                 placeholder='Número de teléfono' />
-                            <donateNowButton isActive={false} />
+                            <donateNowButton isActive={true} />
 
                         </form>
                     </div>
