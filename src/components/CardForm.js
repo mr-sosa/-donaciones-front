@@ -29,7 +29,7 @@ class CardForm extends Component {
                             <h1 className='subtitle' >Información de tu tarjeta</h1>
                             <input
                                 id='cardNumber'
-                                type='text'
+                                type='number'
                                 name='cardNumber'
                                 className='form-input'
                                 placeholder='Tu número de tarjeta' />
@@ -45,7 +45,7 @@ class CardForm extends Component {
 
                                 <input
                                     id='cvv'
-                                    type='text'
+                                    type='number'
                                     name='cvv'
                                     className='cvv'
                                     placeholder='CVV' />
@@ -59,7 +59,7 @@ class CardForm extends Component {
                                 placeholder='Titular de la tarjeta' />
                             <input
                                 id='idOwnerNumber'
-                                type='text'
+                                type='number'
                                 name='idOwnerNumber'
                                 className='form-input'
                                 placeholder='Número de documento' />
