@@ -6,16 +6,6 @@ import Countries from '../data/countries.json'
 class CardForm extends Component {
     render() {
 
-        function donateNowButton(props) {
-            const isActive = props.isActive;
-            if (isActive) {
-                return <button className='buttonActivated'>Donar Ahora</button>;
-            }
-            return <button className='buttonDeactivated'>Donar Ahora</button>;
-        }
-
-
-
         return (
             < div className='box-big' >
                 <div>
@@ -88,7 +78,7 @@ class CardForm extends Component {
                                     País
                                 </option>
                                 {Countries.map((countriesDetail, index) => {
-                                    return <option>{countriesDetail.name} </option>
+                                    return <option key={index} >{countriesDetail.name} </option>
                                 })}
                             </select>
                             <input
@@ -109,9 +99,13 @@ class CardForm extends Component {
                                 name='phoneNumber'
                                 className='form-input'
                                 placeholder='Número de teléfono' />
-                            <donateNowButton isActive={true} />
 
                         </form>
+                        <button
+                            className='donateNowButton'
+                            type='button'
+                            disabled
+                        >Dona ahora</button>
                     </div>
                 </div>
             </div >

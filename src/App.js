@@ -10,19 +10,21 @@ class App extends Component {
     super(props)
     this.state = {
       duration: '',
-      amount:''
+      amount: ''
     };
   }
-  myCallback = (key, value) => {
+  CallBack = (key, value) => {
     switch (key) {
       case 'amount': this.setState({ amount: value }); break;
-      case 'duration' : this.setState({ duration: value }); break;
+      case 'duration': this.setState({ duration: value }); break;
+      /*Se pueden agregar más valores de state que llegan desde cada component*/
       default: console.log('default'); break;
     }
   }
 
 
   render() {
+
     console.log(this.state.duration)
     console.log(this.state.amount)
     return (
@@ -36,22 +38,26 @@ class App extends Component {
 
         <div className='box-big-invisible'>
           <div className='row'>
+            <h1 className='title'>Haz tu donación mensual </h1>
             <div className='column'>
-              <h1 className='title'>Haz tu donación mensual </h1>
-              <AmountForm callbackFromParent={this.myCallback} />
+
+              <AmountForm callbackFromParent={this.CallBack} />
             </div>
             <div className='column'>
 
               <h1 className='title-hide-on-big'>Ya casi...</h1>
 
-              <DonatorForm />
+              <DonatorForm callbackFromParent={this.CallBack} />
 
             </div>
           </div>
         </div>
         <div className='row'>
-          <CardForm />
+          <CardForm callbackFromParent={this.CallBack} />
+        
         </div>
+        
+
       </div>
     )
   }
