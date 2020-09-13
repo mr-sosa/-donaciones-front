@@ -119,22 +119,7 @@ class CardForm extends Component {
                     <div className='column-inner'>
                         <form className='box-small-inner'>
                             <h1 className='subtitle' >Información de tu tarjeta</h1>
-                            <div className='row'>
-
-                                <button type='button' className='cardTypeButton' >
-                                    <img src={require('../data/Mastercard.png')} alt='' className='bankMasterimg' value='MASTERCARD' />
-                                </button>
-                                <button type='button' className='cardTypeButton'>
-                                    <img src={require('../data/Visa Logo.png')} alt='' className='bankVisaimg' value='VISA' />
-                                </button>
-                                <button type='button' className='cardTypeButton'>
-                                    <img src={require('../data/AMEX.png')} alt='' className='bankAMEXimg' value='AMEX' />
-                                </button>
-                                <button type='button' className='cardTypeButton'>
-                                    <img src={require('../data/Diners.png')} alt='' className='bankDinersimg' value='DINERS' />
-                                </button>
-                            </div>
-
+                      
                             <Cleave
                                 name='cardNumber'
                                 placeholder="Tu número de tarjeta"
@@ -249,7 +234,7 @@ class CardForm extends Component {
                     </div>
                 </div>
             </div >
-
+//TODO agregar loguito de payU y Nuestras caritas <3
         )
     }
 }
