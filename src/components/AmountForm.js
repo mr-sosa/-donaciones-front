@@ -14,12 +14,18 @@ class AmountForm extends Component {
     }
 
 
-    /*TODO */
+
     onChange = event => {
         let value = event.target.value
         let key = event.target.name
 
-        this.props.callbackFromParent(key, value);
+        switch (key) {
+            case 'duration': this.props.callbackFromParent(key, value); break;
+            case 'amount': if (value >= 10000) this.props.callbackFromParent(key, value); break;
+            default: break;
+        }
+
+
     }
 
     onClickPaymentType = event => {
@@ -32,18 +38,16 @@ class AmountForm extends Component {
             case 'OnePayment':
                 buttonOne.disabled = true
                 buttonRecurrent.disabled = false
-                console.log('boton recurrente on')
-                console.log('boton unico off')
                 list.className = 'form-input-hidden'
-                this.props.callbackFromParent('duration','1')
+                this.props.callbackFromParent('duration', '1')
 
                 break;
             case 'RecurrentPayment':
                 buttonOne.disabled = false
                 buttonRecurrent.disabled = true
-                console.log('boton recurrente off')
-                console.log('boton unico on')
                 list.className = 'form-input'
+                list.value = ''
+                this.props.callbackFromParent('duration', '')
                 break;
             default: break;
         }
@@ -58,11 +62,11 @@ class AmountForm extends Component {
                     <input
                         id='amount'
                         type='number'
+                        min='10000'
                         name='amount'
                         className='form-input'
-                        placeholder='Monto en pesos colombianos - COP'
+                        placeholder='Monto en pesos colombianos - COP (Min: 10000)'
                         onChange={this.onChange} />
-
                     <div className='row'>
                         <div className='column-inner-buttons'>
                             <button
@@ -90,7 +94,8 @@ class AmountForm extends Component {
                             name='duration'
                             onChange={this.onChange}
                             className='form-input-hidden'
-                            >
+
+                        >
                             <option value="" defaultValue hidden>
                                 Selecciona los meses de duración
                              </option>

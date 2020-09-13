@@ -1,64 +1,200 @@
 import React, { Component } from 'react'
 import '../App.css'
 import Countries from '../data/countries.json'
+import Cleave from 'cleave.js/react';
+import 'cleave.js/dist/addons/cleave-phone.co';
+
 
 
 class CardForm extends Component {
-    render() {
+    constructor(props) {
+        super(props)
 
+        var today = new Date(),
+            month = (today.getMonth() + 1),
+            year = (today.getYear() - 100);
+
+        this.state = {
+            date: '',
+            month: month,
+            year: year,
+            error: 0
+        }
+
+        this.onChange = this.onChange.bind(this);
+        this.onCreditCardTypeChanged = this.onCreditCardTypeChanged.bind(this);
+
+    }
+
+    onCreditCardTypeChanged(type) {
+        this.props.callbackFromParent('cardType', type);
+    }
+
+    onChange = event => {
+        let value = event.target.value
+        let key = event.target.name
+
+
+        switch (key) {
+            case 'cardNumber':
+                this.props.callbackFromParent(key, event.target.rawValue);
+                break;
+            case 'expDate':
+                let x = (value + "").split("/")
+                let month = this.state.month
+                let year = this.state.year
+                let monthIn = parseInt(x[0])
+                let yearIn = parseInt(x[1])
+                if (monthIn !== 0 && yearIn !== 0) {
+                    if (yearIn < year) {
+                        this.setState({ error: 2 })
+                    } else if (yearIn === year) {
+                        if (monthIn > month) {
+                            this.props.callbackFromParent("expYear", x[1]);
+                            this.props.callbackFromParent("expMonth", x[0]);
+                            this.setState({ error: 0 })
+                        } else {
+                            this.setState({ error: 1 })
+                        }
+                    } else if (yearIn > year) {
+                        this.props.callbackFromParent("expYear", x[1]);
+                        this.props.callbackFromParent("expMonth", x[0]);
+                        this.setState({ error: 0 })
+                    } else {
+                        this.props.callbackFromParent("expYear", null);
+                        this.props.callbackFromParent("expMonth", null);
+
+                    }
+
+                }
+                break;
+            case 'cvv':
+
+                if (value.length > 2) {
+                    this.props.callbackFromParent(key, value);
+                } else {
+                    this.props.callbackFromParent(key, null);
+                }
+                break;
+            case 'cardOwner':
+                this.props.callbackFromParent(key, value);
+                break;
+            case 'idOwnerNumber':
+                this.props.callbackFromParent(key, value);
+                break;
+            case 'ownerEmail':
+                if (this.ValidateEmail(value)) {
+                    this.props.callbackFromParent(key, value);
+                }
+                break;
+            case 'address':
+                this.props.callbackFromParent(key, value);
+                break;
+            case 'country':
+                this.props.callbackFromParent(key, value);
+                break;
+            case 'city':
+                this.props.callbackFromParent(key, value);
+                break;
+            case 'phoneNumber':
+                this.props.callbackFromParent(key, value);
+                break;
+            default: break;
+        }
+    }
+
+
+    ValidateEmail(mail) {
+        if (/^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9.-]+)$/.test(mail)) {
+            return (true)
+        }
+
+        return (false)
+    }
+
+    render() {
         return (
             < div className='box-big' >
-                <div>
-                    {/*poner logos de las tarjetas*/}
-                </div>
-
                 <div className='row'>
                     <div className='column-inner'>
                         <form className='box-small-inner'>
                             <h1 className='subtitle' >Información de tu tarjeta</h1>
-                            <input
-                                id='cardNumber'
-                                type='number'
-                                name='cardNumber'
-                                className='form-input'
-                                placeholder='Tu número de tarjeta' />
-
                             <div className='row'>
 
-                                <input
-                                    id='expDate'
-                                    type='text'
-                                    name='expDate'
-                                    className='mmaa'
-                                    placeholder='MM/AA' />
+                                <button type='button' className='cardTypeButton' >
+                                    <img src={require('../data/Mastercard.png')} alt='' className='bankMasterimg' value='MASTERCARD' />
+                                </button>
+                                <button type='button' className='cardTypeButton'>
+                                    <img src={require('../data/Visa Logo.png')} alt='' className='bankVisaimg' value='VISA' />
+                                </button>
+                                <button type='button' className='cardTypeButton'>
+                                    <img src={require('../data/AMEX.png')} alt='' className='bankAMEXimg' value='AMEX' />
+                                </button>
+                                <button type='button' className='cardTypeButton'>
+                                    <img src={require('../data/Diners.png')} alt='' className='bankDinersimg' value='DINERS' />
+                                </button>
+                            </div>
 
-                                <input
-                                    id='cvv'
-                                    type='number'
+                            <Cleave
+                                name='cardNumber'
+                                placeholder="Tu número de tarjeta"
+                                options={{
+                                    creditCard: true,
+                                    onCreditCardTypeChanged: this.onCreditCardTypeChanged
+                                }}
+                                onChange={this.onChange}
+                                className='form-input'
+                            />
+
+                            <div className='row'>
+                                <Cleave
+                                    name='expDate'
+                                    placeholder="MM/AA"
+                                    options={{
+                                        date: true,
+                                        datePattern: ['m', 'y']
+                                    }}
+                                    onChange={this.onChange}
+                                    id='expDate'
+                                    className='mmaa'
+                                />
+                                <Cleave
                                     name='cvv'
+                                    placeholder='CVV'
+                                    options={{
+                                        blocks: [3],
+                                        numericOnly: true
+                                    }}
+                                    onChange={this.onChange}
                                     className='cvv'
-                                    placeholder='CVV' />
+                                />
                             </div>
 
                             <input
+                                name='cardOwner'
                                 id='cardOwner'
                                 type='text'
-                                name='cardOwner'
+                                onChange={this.onChange}
                                 className='form-input'
                                 placeholder='Titular de la tarjeta' />
-                            <input
-                                id='idOwnerNumber'
-                                type='number'
+
+                            <Cleave
                                 name='idOwnerNumber'
+                                placeholder='Número de documento'
+                                options={{
+                                    blocks: [10],
+                                    numericOnly: true
+                                }}
+                                onChange={this.onChange}
                                 className='form-input'
-                                placeholder='Número de documento' />
+                                id='idOwnerNumber' />
                             <input
+                                name='ownerEmail'
                                 id='ownerEmail'
                                 type='email'
-                                name='ownerEmail'
                                 className='form-input'
-                                placeholder='Correo electrónico' />
-
+                                placeholder='Correo electrónico'
+                                onChange={this.onChange} />
                         </form>
                     </div>
                     <div className='column-inner'>
@@ -69,43 +205,47 @@ class CardForm extends Component {
                                 type='text'
                                 name='address'
                                 className='form-input'
-                                placeholder='Dirección ' />
+                                placeholder='Dirección '
+                                onChange={this.onChange} />
                             <select className='form-input'
                                 id='country'
-                                name='country'>
+                                name='country'
+                                onChange={this.onChange}>
 
                                 <option value="" defaultValue hidden>
                                     País
                                 </option>
                                 {Countries.map((countriesDetail, index) => {
-                                    return <option key={index} >{countriesDetail.name} </option>
+                                    return <option key={index} value={countriesDetail.iso2} >{countriesDetail.name} </option>
                                 })}
                             </select>
-                            <input
-                                id='state'
-                                type='text'
-                                name='state'
-                                className='form-input'
-                                placeholder='Departamento/Estado' />
+
                             <input
                                 id='city'
                                 type='text'
                                 name='city'
                                 className='form-input'
-                                placeholder='Ciudad' />
-                            <input
-                                id='phoneNumber'
-                                type='text'
-                                name='phoneNumber'
+                                placeholder='Ciudad'
+                                onChange={this.onChange} />
+
+                            <Cleave
+                                placeholder='Número de teléfono celular'
+                                options={{ phone: true, phoneRegionCode: 'CO' }}
                                 className='form-input'
-                                placeholder='Número de teléfono' />
+                                onChange={this.onChange}
+                                name='phoneNumber'
+                                id='phoneNumber'
+                            />
+                            <input
+                                className='donateNowButton'
+                                type='button'
+                                onClick={this.props.onSubmitButton}
+                                value='Dona ahora'
+                                disabled={this.props.btnFlag}
+                            />
 
                         </form>
-                        <button
-                            className='donateNowButton'
-                            type='button'
-                            disabled
-                        >Dona ahora</button>
+
                     </div>
                 </div>
             </div >
@@ -116,5 +256,3 @@ class CardForm extends Component {
 
 
 export default CardForm
-
-
