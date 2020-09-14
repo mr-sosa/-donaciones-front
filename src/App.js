@@ -3,7 +3,7 @@ import DonatorForm from './Components/DonatorForm'
 import AmountForm from './Components/AmountForm'
 import CardForm from './Components/CardForm'
 
-
+const ENDPOINT = 'http://localhost:2000'
 
 class App extends Component {
 
@@ -48,11 +48,47 @@ class App extends Component {
     this.setState({ [key]: value });
   }
 
-  onSubmitButton = () =>{
+  onSubmitButton = async (event) =>{
+    event.preventDefault();
     if(this.state.Error === '2'){
       alert('el valor mínimo de donación es $10000')
     }else{
       //TODO aquí va el envío de datos a back
+      let resp = await fetch(ENDPOINT+"/CreateDonation", {
+        method: "POST",
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          'AmountForm':{
+            'duration': this.state.duration,
+            'amount': this.state.amount
+          },
+          'DonatorForm':{
+            'fullNameClient': this.state.fullNameClient,
+            'idNumberClient': this.state.idNumberClient,
+            'emailClient': this.state.emailClient
+          },
+          'CardForm':{
+            'cardNumber': this.state.cardNumber,
+            'expMonth': this.state.expMonth,
+            'expYear': this.state.expYear,
+            'cardType': this.state.cardType, 
+            'cvv': this.state.cvv,
+            'cardOwner': this.state.cardOwner,
+            'idOwnerNumber': this.state.idOwnerNumber,
+            'address': this.state.address,
+            'country': this.state.country,
+            'city': this.state.city,
+            'phoneNumber': this.state.phoneNumber
+          }
+        })
+      });
+
+      //Después se crean el manejo de errores
+      if(resp.status === 201 ) { //quiere decir que todo está en orden 
+      }
     }
   }
 
