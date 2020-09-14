@@ -89,17 +89,17 @@ class App extends Component {
 
       //Después se crean el manejo de errores
       if(resp.status === 201 ) { //quiere decir que todo está en orden 
+        /*
         console.log('La Donación fué realizada exitosamente');
         resp = await resp.json();
         console.log('planCode: '+resp.planCode)
         console.log('clientId: '+resp.id)
         console.log('token: '+resp.token)
         console.log('subscriptionId: '+resp.subscriptionId)
+        */
 
-        /*
-        let redirect_url = "";
+        let redirect_url = "https://aieseccolombia.org/thanksforyourdonation";
         window.top.location.href  = redirect_url 
-         */
       }
     }
   }
