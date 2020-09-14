@@ -64,7 +64,7 @@ class App extends Component {
       state.country !== '' &&
       state.city !== '' &&
       state.phoneNumber !== ''
-    )
+      )
     if (flag1 && flag2 && flag3) {
       this.setState({ btnFlag: false })
     } else {
