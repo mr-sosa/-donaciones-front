@@ -8,6 +8,9 @@ class DonatorForm extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            fullNameClient: '',
+            idNumberClient: '',
+            emailClient: ''
         }
         this.onChange = this.onChange.bind(this);
     }
@@ -17,6 +20,7 @@ class DonatorForm extends Component {
         let value = event.target.value
         let key = event.target.name
 
+        this.setState({[key]: value})
 
         switch (key) {
 
@@ -24,17 +28,22 @@ class DonatorForm extends Component {
                 if (this.ValidateOnlyText(value)) {
                     this.props.callbackFromParent(key, value);
                     this.props.callbackFromParent('Error2', '0');
+                    if(this.state.emailClient !== '' && this.state.idNumberClient !== '') this.props.callbackFromParent('flag2','1');
                 } else {
                     this.props.callbackFromParent('Error2', '1')
                     document.getElementById(key).value = ''
                 }
                 break;
             case 'idNumberClient':
-                this.props.callbackFromParent(key, value);
+                if(value.length > 5 && value.length < 30){
+                    this.props.callbackFromParent(key, event.target.rawValue);
+                    if(this.state.emailClient !== '' && this.state.fullNameClient !== '') this.props.callbackFromParent('flag2','1');
+                }
                 break;
             case 'emailClient':
                 if (this.ValidateEmail(value)) {
                     this.props.callbackFromParent(key, value);
+                    if(this.state.fullNameClient !== ''&& this.state.idNumberClient !== '') this.props.callbackFromParent('flag2','1');
                 }
                 break;
             default: break;
@@ -43,8 +52,7 @@ class DonatorForm extends Component {
 
     ValidateOnlyText(text) {
 
-        let letters = /^[0-9]+$/
-        if (text.match(letters)) {
+        if (/\d/.test(text)) {
             return (false)
         }
         return (true)
@@ -79,9 +87,7 @@ class DonatorForm extends Component {
                         name='idNumberClient'
                         placeholder='Número de documento'
                         options={{
-                            numeral: true,
-                            numeralPositiveOnly: true,
-                            blocks: [10],
+                            blocks: [30],
                             numericOnly: true
                         }}
                         onChange={this.onChange}

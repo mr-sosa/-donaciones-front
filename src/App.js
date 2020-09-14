@@ -20,7 +20,7 @@ class App extends Component {
       fullNameClient: '',
       idNumberClient: '',
       emailClient: '',
-      flag2: '1',
+      flag2: '0',
 
       //CardForm 
       cardNumber: '',
@@ -30,11 +30,12 @@ class App extends Component {
       cvv: '',
       cardOwner: '',
       idOwnerNumber: '',
+      ownerEmail: '',
       address: '',
       country: '',
       city: '',
       phoneNumber: '',
-      flag3: '1',
+      flag3: '0',
       Error: '0',
       Error2: '0',
 
@@ -48,8 +49,7 @@ class App extends Component {
     this.setState({ [key]: value });
   }
 
-  onSubmitButton = async (event) =>{
-    event.preventDefault();
+  onSubmitButton = async () =>{
     if(this.state.Error === '2'){
       alert('el valor mínimo de donación es $10000')
     }else{
@@ -78,6 +78,7 @@ class App extends Component {
             'cvv': this.state.cvv,
             'cardOwner': this.state.cardOwner,
             'idOwnerNumber': this.state.idOwnerNumber,
+            'ownerEmail': this.state.ownerEmail,
             'address': this.state.address,
             'country': this.state.country,
             'city': this.state.city,
@@ -88,6 +89,17 @@ class App extends Component {
 
       //Después se crean el manejo de errores
       if(resp.status === 201 ) { //quiere decir que todo está en orden 
+        console.log('La Donación fué realizada exitosamente');
+        resp = await resp.json();
+        console.log('planCode: '+resp.planCode)
+        console.log('clientId: '+resp.id)
+        console.log('token: '+resp.token)
+        console.log('subscriptionId: '+resp.subscriptionId)
+
+        /*
+        let redirect_url = "";
+        window.top.location.href  = redirect_url 
+         */
       }
     }
   }
@@ -119,9 +131,9 @@ class App extends Component {
 
 
   render() {
-    console.log(this.state)
+    //console.log(this.state)
 
-    let btnSubmit = true;
+    let btnSubmit = true; 
     let flag1 = this.state.flag1
     let flag2 = this.state.flag2
     let flag3 = this.state.flag3
@@ -131,14 +143,14 @@ class App extends Component {
         btnSubmit = <div className='row'>
                       <CardForm btnFlag={true}
                                 callbackFromParent={this.CallBack} 
-                                onSubmitButton={this.onSubmitButton} />
+                                onSubmitButtonApp={this.onSubmitButton.bind(this)} />
                     </div>
         break;
       case false:
         btnSubmit = <div className='row'>
                       <CardForm btnFlag={false}
                                 callbackFromParent={this.CallBack} 
-                                onSubmitButton={this.onSubmitButton} />
+                                onSubmitButtonApp={this.onSubmitButton.bind(this)} />
                     </div>
         break;
     }

@@ -8,11 +8,23 @@ import 'cleave.js/dist/addons/cleave-phone.co';
 
 class CardForm extends Component {
     constructor(props) {
-        super(props)
+        super(props);
         var today = new Date(),
             month = (today.getMonth() + 1),
             year = (today.getYear() - 100);
         this.state = {
+            cardNumber: '',
+            expMonth: '',
+            expYear: '',
+            cardType: '',
+            cvv: '',
+            cardOwner: '',
+            idOwnerNumber: '',
+            ownerEmail: '',
+            address: '',
+            country: '',
+            city: '',
+            phoneNumber: '',
             date: '',
             month: month,
             year: year,
@@ -35,23 +47,32 @@ class CardForm extends Component {
             case 'amex':
                 type = 'AMEX';
                 break;
+            default:
+                type = '';
+                break;
         }
-        this.props.callbackFromParent('cardType', type);
+        this.setState({'cardType': type})
+        this.props.callbackFromParent('cardType', type)
     }
 
-    onSubmit (){
-        this.props.onSubmitButton()
+    onSubmit = (event) =>{
+        this.props.onSubmitButtonApp();
     }
 
     onChange = event => {
         let value = event.target.value
         let key = event.target.name
 
+        this.setState({[key]: value})
 
         switch (key) {
             case 'cardNumber':
-                if ((event.target.rawValue).length >= 14)
+                if ((event.target.rawValue).length >= 14){
                     this.props.callbackFromParent(key, event.target.rawValue);
+                    if(this.check(key)){
+                        this.props.callbackFromParent('flag3','1')
+                    }
+                }
                 else { this.props.callbackFromParent(key, ''); }
                 break;
             case 'expDate':
@@ -65,19 +86,29 @@ class CardForm extends Component {
 
                     } else if (yearIn === year) {
                         if (monthIn > month) {
+                            this.setState({'expMonth':monthIn});
+                            this.setState({'expYear':yearIn});
                             this.props.callbackFromParent("expYear", x[1]);
                             this.props.callbackFromParent("expMonth", x[0]);
                             this.setState({ error: 0 })
+                            if(this.check(key)){
+                                this.props.callbackFromParent('flag3','1')
+                            }
                         } else {
-                            this.props.callbackFromParent("expYear", null);
-                            this.props.callbackFromParent("expMonth", null);
+                            this.props.callbackFromParent("expYear", '');
+                            this.props.callbackFromParent("expMonth", '');
                         }
                     } else if (yearIn > year) {
+                        this.setState({'expMonth':monthIn});
+                        this.setState({'expYear':yearIn});
                         this.props.callbackFromParent("expYear", x[1]);
                         this.props.callbackFromParent("expMonth", x[0]);
+                        if(this.check(key)){
+                            this.props.callbackFromParent('flag3','1')
+                        }
                     } else {
-                        this.props.callbackFromParent("expYear", null);
-                        this.props.callbackFromParent("expMonth", null);
+                        this.props.callbackFromParent("expYear", '');
+                        this.props.callbackFromParent("expMonth", '');
 
                     }
                 }
@@ -86,37 +117,60 @@ class CardForm extends Component {
 
                 if (value.length > 2) {
                     this.props.callbackFromParent(key, value);
+                    if(this.check(key)){
+                        this.props.callbackFromParent('flag3','1')
+                    }
                 } else {
-                    this.props.callbackFromParent(key, null);
+                    this.props.callbackFromParent(key, '');
                 }
                 break;
             case 'cardOwner':
                 if (this.ValidateOnlyText(value)) {
                     this.props.callbackFromParent(key, value);
                     this.props.callbackFromParent('Error2', '0');
+                    if(this.check(key)){
+                        this.props.callbackFromParent('flag3','1')
+                    }
                 } else {
                     this.props.callbackFromParent('Error2', '1')
                     document.getElementById(key).value = ''
                 }
                 break;
             case 'idOwnerNumber':
-                this.props.callbackFromParent(key, value);
+                if (value.length > 5 && value.length < 30){
+                    this.props.callbackFromParent(key, value);
+                    if(this.check(key)){
+                        this.props.callbackFromParent('flag3','1')
+                    }
+                }
                 break;
             case 'ownerEmail':
                 if (this.ValidateEmail(value)) {
                     this.props.callbackFromParent(key, value);
+                    if(this.check(key)){
+                        this.props.callbackFromParent('flag3','1')
+                    }
                 }
                 break;
             case 'address':
                 this.props.callbackFromParent(key, value);
+                if(this.check(key)){
+                    this.props.callbackFromParent('flag3','1')
+                }
                 break;
             case 'country':
                 this.props.callbackFromParent(key, value);
+                if(this.check(key)){
+                    this.props.callbackFromParent('flag3','1')
+                }
                 break;
             case 'city':
                 if (this.ValidateOnlyText(value)) {
                     this.props.callbackFromParent(key, value);
                     this.props.callbackFromParent('Error2', '0');
+                    if(this.check(key)){
+                        this.props.callbackFromParent('flag3','1')
+                    }
                 } else {
                     this.props.callbackFromParent('Error2', '1')
                     document.getElementById(key).value = ''
@@ -124,6 +178,9 @@ class CardForm extends Component {
                 break;
             case 'phoneNumber':
                 this.props.callbackFromParent(key, value);
+                if(this.check(key)){
+                    this.props.callbackFromParent('flag3','1')
+                }
                 break;
             default: break;
         }
@@ -132,8 +189,7 @@ class CardForm extends Component {
 
     ValidateOnlyText(text) {
 
-        let letters = /^[0-9]+$/
-        if (text.match(letters)) {
+        if (/\d/.test(text)) {
             return (false)
         }
         return (true)
@@ -144,6 +200,50 @@ class CardForm extends Component {
             return (true)
         }
         return (false)
+    }
+
+    check(key){
+
+        let cardNumber = (this.state.cardNumber !== '');
+        let expMonth = (this.state.expMonth !== '');
+        let expYear = (this.state.expYear !== '');
+        let cardType = (this.state.cardType !== '');
+        let cvv = (this.state.cvv !== '');
+        let cardOwner = (this.state.cardOwner !== '');
+        let idOwnerNumber = (this.state.cardOwner !== '');
+        let ownerEmail = (this.state.ownerEmail !== '');
+        let address = (this.state.address !== '');
+        let country = (this.state.country !== '');
+        let city = (this.state.city !== '');
+        let phoneNumber = (this.state.phoneNumber !== '');
+
+        //console.log('cardNumber-'+cardNumber+'-expMonth-'+expMonth+'-expYear-'+expYear+'-cardType-'+cardType+'-cvv-'+cvv+'-cardOwner-'+cardOwner+'-idOwnerNumber-'+idOwnerNumber+'-ownerEmail-'+ownerEmail+'-address-'+address+'-country-'+country+'-city-'+city+'-phoneNumber-'+phoneNumber)
+
+        // eslint-disable-next-line
+        switch(key){
+            case 'cardNumber':
+                return (expMonth && expYear && cardType && cvv && cardOwner && idOwnerNumber && ownerEmail && address && country && city && phoneNumber)
+            case 'expDate':
+                return (cardNumber && cardType && cvv && cardOwner && idOwnerNumber && ownerEmail && address && country && city && phoneNumber)   
+            case 'cardType':
+                return (cardNumber && expMonth && expYear && cvv && cardOwner && idOwnerNumber && ownerEmail && address && country && city && phoneNumber)
+            case 'cvv':
+                return (cardNumber && expMonth && expYear && cardType && cardOwner && idOwnerNumber && ownerEmail && address && country && city && phoneNumber)
+            case 'cardOwner':
+                return (cardNumber && expMonth && expYear && cardType && cvv && idOwnerNumber && ownerEmail && address && country && city && phoneNumber)
+            case 'idOwnerNumber':
+                return (cardNumber && expMonth && expYear && cardType && cvv && cardOwner && ownerEmail && address && country && city && phoneNumber)
+            case 'ownerEmail':
+                return (cardNumber && expMonth && expYear && cardType && cvv && cardOwner && idOwnerNumber && address && country && city && phoneNumber)
+            case 'address':
+                return (cardNumber && expMonth && expYear && cardType && cvv && cardOwner && idOwnerNumber && ownerEmail && country && city && phoneNumber)
+            case 'country':
+                return (cardNumber && expMonth && expYear && cardType && cvv && cardOwner && idOwnerNumber && ownerEmail && address && city && phoneNumber)
+            case 'city':
+                return (cardNumber && expMonth && expYear && cardType && cvv && cardOwner && idOwnerNumber && ownerEmail && address && country && phoneNumber)
+            case 'phoneNumber':
+                return (cardNumber && expMonth && expYear && cardType && cvv && cardOwner && idOwnerNumber && ownerEmail && address && country && city)
+        }
     }
 
     render() {
@@ -201,7 +301,7 @@ class CardForm extends Component {
                                 name='idOwnerNumber'
                                 placeholder='Número de documento'
                                 options={{
-                                    blocks: [10],
+                                    blocks: [30],
                                     numericOnly: true
                                 }}
                                 onChange={this.onChange}
