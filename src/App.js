@@ -9,6 +9,7 @@ class App extends Component {
 
   constructor(props) {
     super(props)
+
     this.state = {
       //AmountForm
       duration: '',
@@ -34,13 +35,50 @@ class App extends Component {
       city: '',
       phoneNumber: '',
       flag3: '1',
+      Error: '0',
+      Error2: '0',
 
       btnFlag: true // este valor activa o desactiva el envìo del form
     };
     this.CallBack = this.CallBack.bind(this);
+    this.CheckFlags = this.CheckFlags.bind(this);
+    this.onSubmitButton = this.onSubmitButton.bind(this);
   }
   CallBack = async (key, value) => {
     this.setState({ [key]: value });
+  }
+
+  onSubmitButton = () =>{
+    if(this.state.Error === '2'){
+      alert('el valor mínimo de donación es $10000')
+    }else{
+      //TODO aquí va el envío de datos a back
+    }
+  }
+
+
+  CheckFlags = () => {
+    let state = this.state
+    let flag1 = (state.duration !== '' && state.amount !== null)
+    let flag2 = (state.fullNameClient !== '' && state.emailClient !== '' && state.idNumberClient.length >= 6)
+    let flag3 = (
+      state.cardNumber.length >= 14 &&
+      state.expMonth !== '' &&
+      state.expYear !== '' &&
+      state.cardType !== '' &&
+      state.cvv !== '' &&
+      state.cardOwner !== '' &&
+      state.idOwnerNumber !== '' &&
+      state.address !== '' &&
+      state.country !== '' &&
+      state.city !== '' &&
+      state.phoneNumber !== '' 
+    )
+    if (flag1 && flag2 && flag3) {
+      this.setState({ btnFlag: false })
+    } else {
+      this.setState({ btnFlag: true })
+    }
   }
 
 
@@ -68,6 +106,9 @@ class App extends Component {
                     </div>
         break;
     }
+
+    if(this.state.Error2 ==='1') alert('este campo no admite números')
+
 
     return (
 

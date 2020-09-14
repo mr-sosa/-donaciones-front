@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import '../App.css'
 import Cleave from 'cleave.js/react';
+<<<<<<< HEAD
 import 'cleave.js/dist/addons/cleave-phone.co';
+=======
+>>>>>>> ec393b21abef1a16aec0b3a59ab23212ca46c714
 
 class DonatorForm extends Component {
 
@@ -21,7 +24,13 @@ class DonatorForm extends Component {
         switch (key) {
 
             case 'fullNameClient':
-                this.props.callbackFromParent(key, value);
+                if (this.ValidateOnlyText(value)) {
+                    this.props.callbackFromParent(key, value);
+                    this.props.callbackFromParent('Error2', '0');
+                } else {
+                    this.props.callbackFromParent('Error2', '1')
+                    document.getElementById(key).value = ''
+                }
                 break;
             case 'idNumberClient':
                 this.props.callbackFromParent(key, value);
@@ -34,6 +43,15 @@ class DonatorForm extends Component {
             default: break;
         }
     }
+
+    ValidateOnlyText(text) {
+
+        let letters = /^[0-9]+$/
+        if (text.match(letters)) {
+            return (false)
+        }
+        return (true)
+    }
     ValidateEmail(mail) {
         if (/^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9.-]+)$/.test(mail)) {
             return (true)
@@ -41,6 +59,7 @@ class DonatorForm extends Component {
 
         return (false)
     }
+
 
     render() {
 
@@ -57,12 +76,22 @@ class DonatorForm extends Component {
                         className='form-input'
                         placeholder='Tu nombre completo'
                         onChange={this.onChange} />
+<<<<<<< HEAD
                     <Cleave
+=======
+
+                    <Cleave
+                        id='idNumberClient'
+>>>>>>> ec393b21abef1a16aec0b3a59ab23212ca46c714
                         name='idNumberClient'
                         placeholder='Número de documento'
                         options={{
+<<<<<<< HEAD
                             numeral: true,
                             numeralPositiveOnly: true,
+=======
+                            blocks: [10],
+>>>>>>> ec393b21abef1a16aec0b3a59ab23212ca46c714
                             numericOnly: true
                         }}
                         onChange={this.onChange}

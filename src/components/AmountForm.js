@@ -8,20 +8,25 @@ class AmountForm extends Component {
 
     constructor(props) {
         super(props)
+<<<<<<< HEAD
         this.state = {
             duration: '',
             amount: ''
         };
+=======
+        // this.state = {
+        // }
+>>>>>>> ec393b21abef1a16aec0b3a59ab23212ca46c714
         this.onChange = this.onChange.bind(this);
         this.onClickPaymentType = this.onClickPaymentType.bind(this);
     }
-
 
 
     onChange = event => {
         let value = event.target.value
         let key = event.target.name
 
+<<<<<<< HEAD
         this.setState({[key]: value})
         
         switch (key) {
@@ -36,6 +41,16 @@ class AmountForm extends Component {
                     this.props.callbackFromParent(key, value);
                     if(this.state.duration !== '') this.props.callbackFromParent('flag1','1')
                 }
+=======
+
+        switch (key) {
+            case 'duration': this.props.callbackFromParent(key, value); break;
+            case 'amount':
+                this.props.callbackFromParent(key, value);
+                if (value < 10000) {
+                    this.props.callbackFromParent('Error', '2')
+                }else{this.props.callbackFromParent('Error', '0')}
+>>>>>>> ec393b21abef1a16aec0b3a59ab23212ca46c714
                 break;
             default: break;
         }
@@ -62,8 +77,13 @@ class AmountForm extends Component {
                 buttonOne.disabled = false
                 buttonRecurrent.disabled = true
                 list.className = 'form-input'
+<<<<<<< HEAD
                 list.value = ''
                 //this.props.callbackFromParent('duration', '')
+=======
+                list.value = '1'
+                this.props.callbackFromParent('duration', '1')
+>>>>>>> ec393b21abef1a16aec0b3a59ab23212ca46c714
                 break;
             default: break;
         }
@@ -125,7 +145,7 @@ class AmountForm extends Component {
                             <option value='12'>12 Meses</option>
                             <option value='6'>6 Meses</option>
                             <option value='3'>3 Meses</option>
-                            <option value='1'>1 Meses</option>
+                            <option value='1'>1 Mes</option>
                         </select>
                     </div>
                 </form>
