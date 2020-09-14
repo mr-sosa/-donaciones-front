@@ -7,21 +7,26 @@ class AmountForm extends Component {
 
     constructor(props) {
         super(props)
-        /*this.state = {
-        }*/
+        // this.state = {
+        // }
         this.onChange = this.onChange.bind(this);
         this.onClickPaymentType = this.onClickPaymentType.bind(this);
     }
 
 
-
     onChange = event => {
         let value = event.target.value
         let key = event.target.name
+    
 
         switch (key) {
             case 'duration': this.props.callbackFromParent(key, value); break;
-            case 'amount': if (value >= 10000) this.props.callbackFromParent(key, value); break;
+            case 'amount':
+                if (value >= 10000) {
+                     this.props.callbackFromParent(key, value);                
+                    }
+                else {this.props.callbackFromParent(key, null);}
+                break;
             default: break;
         }
 
@@ -46,8 +51,8 @@ class AmountForm extends Component {
                 buttonOne.disabled = false
                 buttonRecurrent.disabled = true
                 list.className = 'form-input'
-                list.value = ''
-                this.props.callbackFromParent('duration', '')
+                list.value = '1'
+                this.props.callbackFromParent('duration', '1')
                 break;
             default: break;
         }
@@ -102,7 +107,7 @@ class AmountForm extends Component {
                             <option value='12'>12 Meses</option>
                             <option value='6'>6 Meses</option>
                             <option value='3'>3 Meses</option>
-                            <option value='1'>1 Meses</option>
+                            <option value='1'>1 Mes</option>
                         </select>
                     </div>
                 </form>

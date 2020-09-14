@@ -9,17 +9,17 @@ class App extends Component {
 
   constructor(props) {
     super(props)
+
     this.state = {
       //AmountForm
       duration: '',
       amount: '',
-      flag1: false,
+
 
       //DonatorForm
       fullNameClient: '',
       idNumberClient: '',
       emailClient: '',
-      flag2: true,
 
       //CardForm 
       cardNumber: '',
@@ -33,42 +33,45 @@ class App extends Component {
       country: '',
       city: '',
       phoneNumber: '',
-      flag3: true,
 
       btnFlag: true // este valor activa o desactiva el envìo del form
     };
     this.CallBack = this.CallBack.bind(this);
+    this.CheckFlags = this.CheckFlags.bind(this);
   }
+
+
   CallBack = (key, value) => {
-    this.checkFlags()
     this.setState({ [key]: value });
+    this.CheckFlags();
   }
 
 
-
-  checkFlag1() {
+  CheckFlags = () => {
+    console.log('checking F1')
     let state = this.state
-    if (state.duration !== '' && state.amount !== '') { this.setState({ flag1: true }) } else { this.setState({ flag1: false }) }
+    let flag1 = (state.duration !== '' && state.amount !== null)
+    let flag2 = (state.fullNameClient !== '' && state.emailClient !== '' && state.idNumberClient.length >= 6)
+    let flag3 = (
+      state.cardNumber !== '' &&
+      state.expMonth !== '' &&
+      state.expYear !== '' &&
+      state.cardType !== '' &&
+      state.cvv !== '' &&
+      state.cardOwner !== '' &&
+      state.idOwnerNumber !== '' &&
+      state.address !== '' &&
+      state.country !== '' &&
+      state.city !== '' &&
+      state.phoneNumber !== ''
+    )
+    if (flag1 && flag2 && flag3) {
+      this.setState({ btnFlag: false })
+    } else {
+      this.setState({ btnFlag: true })
+    }
   }
-  checkFlag2() {
 
-  }
-  checkFlag3() {
-
-  }
-  checkFlags() {
-    let flag1 = this.state.flag1
-    let flag2 = this.state.flag2
-    let flag3 = this.state.flag3
-    this.checkFlag1()
-    this.checkFlag2()
-    this.checkFlag3()
-
-    let res = !(flag1 && flag2 && flag3)
-    this.setState({ btnFlag: res });
-
-
-  }
 
   render() {
     console.log(this.state)
@@ -102,7 +105,10 @@ class App extends Component {
           </div>
         </div>
         <div className='row'>
-          <CardForm btnFlag={this.state.btnFlag} callbackFromParent={this.CallBack} onSubmitButton={this.onSubmitButton} />
+          <CardForm
+            btnFlag={this.state.btnFlag}
+            callbackFromParent={this.CallBack}
+            onSubmitButton={this.onSubmitButton} />
         </div>
 
 

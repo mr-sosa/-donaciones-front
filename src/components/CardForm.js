@@ -9,26 +9,22 @@ import 'cleave.js/dist/addons/cleave-phone.co';
 class CardForm extends Component {
     constructor(props) {
         super(props)
-
         var today = new Date(),
             month = (today.getMonth() + 1),
             year = (today.getYear() - 100);
-
         this.state = {
             date: '',
             month: month,
             year: year,
             error: 0
         }
-
         this.onChange = this.onChange.bind(this);
         this.onCreditCardTypeChanged = this.onCreditCardTypeChanged.bind(this);
-
     }
-
     onCreditCardTypeChanged(type) {
         this.props.callbackFromParent('cardType', type);
     }
+
 
     onChange = event => {
         let value = event.target.value
@@ -37,6 +33,7 @@ class CardForm extends Component {
 
         switch (key) {
             case 'cardNumber':
+                if((event.target.rawValue).length>=14)
                 this.props.callbackFromParent(key, event.target.rawValue);
                 break;
             case 'expDate':
@@ -101,6 +98,7 @@ class CardForm extends Component {
                 break;
             default: break;
         }
+        this.forceUpdate(console.log('forced'));
     }
 
 
@@ -222,6 +220,7 @@ class CardForm extends Component {
                                 id='phoneNumber'
                             />
                             <input
+                            id='btnSubmit'
                                 className='donateNowButton'
                                 type='button'
                                 onClick={this.props.onSubmitButton}
