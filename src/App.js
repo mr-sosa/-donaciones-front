@@ -33,11 +33,14 @@ class App extends Component {
       country: '',
       city: '',
       phoneNumber: '',
+      Error: '0',
+      Error2: '0',
 
       btnFlag: true // este valor activa o desactiva el envìo del form
     };
     this.CallBack = this.CallBack.bind(this);
     this.CheckFlags = this.CheckFlags.bind(this);
+    this.onSubmitButton = this.onSubmitButton.bind(this);
   }
 
 
@@ -46,14 +49,21 @@ class App extends Component {
     this.CheckFlags();
   }
 
+  onSubmitButton = () =>{
+    if(this.state.Error === '2'){
+      alert('el valor mínimo de donación es $10000')
+    }else{
+      //TODO aquí va el envío de datos a back
+    }
+  }
+
 
   CheckFlags = () => {
-    console.log('checking F1')
     let state = this.state
     let flag1 = (state.duration !== '' && state.amount !== null)
     let flag2 = (state.fullNameClient !== '' && state.emailClient !== '' && state.idNumberClient.length >= 6)
     let flag3 = (
-      state.cardNumber !== '' &&
+      state.cardNumber.length >= 14 &&
       state.expMonth !== '' &&
       state.expYear !== '' &&
       state.cardType !== '' &&
@@ -63,8 +73,8 @@ class App extends Component {
       state.address !== '' &&
       state.country !== '' &&
       state.city !== '' &&
-      state.phoneNumber !== ''
-      )
+      state.phoneNumber !== '' 
+    )
     if (flag1 && flag2 && flag3) {
       this.setState({ btnFlag: false })
     } else {
@@ -75,6 +85,8 @@ class App extends Component {
 
   render() {
     console.log(this.state)
+    if(this.state.Error2 ==='1') alert('este campo no admite números')
+
     return (
 
       <div className='all'>

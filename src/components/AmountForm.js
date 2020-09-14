@@ -17,15 +17,15 @@ class AmountForm extends Component {
     onChange = event => {
         let value = event.target.value
         let key = event.target.name
-    
+
 
         switch (key) {
             case 'duration': this.props.callbackFromParent(key, value); break;
             case 'amount':
-                if (value >= 10000) {
-                     this.props.callbackFromParent(key, value);                
-                    }
-                else {this.props.callbackFromParent(key, null);}
+                this.props.callbackFromParent(key, value);
+                if (value < 10000) {
+                    this.props.callbackFromParent('Error', '2')
+                }else{this.props.callbackFromParent('Error', '0')}
                 break;
             default: break;
         }

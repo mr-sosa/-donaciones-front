@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import '../App.css'
-
+import Cleave from 'cleave.js/react';
 
 class DonatorForm extends Component {
 
@@ -20,7 +20,13 @@ class DonatorForm extends Component {
         switch (key) {
 
             case 'fullNameClient':
-                this.props.callbackFromParent(key, value);
+                if (this.ValidateOnlyText(value)) {
+                    this.props.callbackFromParent(key, value);
+                    this.props.callbackFromParent('Error2', '0');
+                } else {
+                    this.props.callbackFromParent('Error2', '1')
+                    document.getElementById(key).value = ''
+                }
                 break;
             case 'idNumberClient':
                 this.props.callbackFromParent(key, value);
@@ -33,6 +39,15 @@ class DonatorForm extends Component {
             default: break;
         }
     }
+
+    ValidateOnlyText(text) {
+
+        let letters = /^[0-9]+$/
+        if (text.match(letters)) {
+            return (false)
+        }
+        return (true)
+    }
     ValidateEmail(mail) {
         if (/^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9.-]+)$/.test(mail)) {
             return (true)
@@ -40,6 +55,7 @@ class DonatorForm extends Component {
 
         return (false)
     }
+
 
     render() {
 
@@ -56,12 +72,16 @@ class DonatorForm extends Component {
                         className='form-input'
                         placeholder='Tu nombre completo'
                         onChange={this.onChange} />
-                    <input
+
+                    <Cleave
                         id='idNumberClient'
-                        type='text'
                         name='idNumberClient'
                         className='form-input'
                         placeholder='Número de documento'
+                        options={{
+                            blocks: [10],
+                            numericOnly: true
+                        }}
                         onChange={this.onChange}
                     />
                     <input

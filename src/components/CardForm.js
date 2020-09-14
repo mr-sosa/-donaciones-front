@@ -25,6 +25,9 @@ class CardForm extends Component {
         this.props.callbackFromParent('cardType', type);
     }
 
+    onSubmit (){
+        this.props.onSubmitButton()
+    }
 
     onChange = event => {
         let value = event.target.value
@@ -33,8 +36,9 @@ class CardForm extends Component {
 
         switch (key) {
             case 'cardNumber':
-                if((event.target.rawValue).length>=14)
-                this.props.callbackFromParent(key, event.target.rawValue);
+                if ((event.target.rawValue).length >= 14)
+                    this.props.callbackFromParent(key, event.target.rawValue);
+                else { this.props.callbackFromParent(key, ''); }
                 break;
             case 'expDate':
                 let x = (value + "").split("/")
@@ -44,25 +48,24 @@ class CardForm extends Component {
                 let yearIn = parseInt(x[1])
                 if (monthIn !== 0 && yearIn !== 0) {
                     if (yearIn < year) {
-                        this.setState({ error: 2 })
+
                     } else if (yearIn === year) {
                         if (monthIn > month) {
                             this.props.callbackFromParent("expYear", x[1]);
                             this.props.callbackFromParent("expMonth", x[0]);
                             this.setState({ error: 0 })
                         } else {
-                            this.setState({ error: 1 })
+                            this.props.callbackFromParent("expYear", null);
+                            this.props.callbackFromParent("expMonth", null);
                         }
                     } else if (yearIn > year) {
                         this.props.callbackFromParent("expYear", x[1]);
                         this.props.callbackFromParent("expMonth", x[0]);
-                        this.setState({ error: 0 })
                     } else {
                         this.props.callbackFromParent("expYear", null);
                         this.props.callbackFromParent("expMonth", null);
 
                     }
-
                 }
                 break;
             case 'cvv':
@@ -74,7 +77,13 @@ class CardForm extends Component {
                 }
                 break;
             case 'cardOwner':
-                this.props.callbackFromParent(key, value);
+                if (this.ValidateOnlyText(value)) {
+                    this.props.callbackFromParent(key, value);
+                    this.props.callbackFromParent('Error2', '0');
+                } else {
+                    this.props.callbackFromParent('Error2', '1')
+                    document.getElementById(key).value = ''
+                }
                 break;
             case 'idOwnerNumber':
                 this.props.callbackFromParent(key, value);
@@ -91,22 +100,35 @@ class CardForm extends Component {
                 this.props.callbackFromParent(key, value);
                 break;
             case 'city':
-                this.props.callbackFromParent(key, value);
+                if (this.ValidateOnlyText(value)) {
+                    this.props.callbackFromParent(key, value);
+                    this.props.callbackFromParent('Error2', '0');
+                } else {
+                    this.props.callbackFromParent('Error2', '1')
+                    document.getElementById(key).value = ''
+                }
                 break;
             case 'phoneNumber':
                 this.props.callbackFromParent(key, value);
                 break;
             default: break;
         }
-        this.forceUpdate(console.log('forced'));
+        this.forceUpdate();
     }
 
+    ValidateOnlyText(text) {
+
+        let letters = /^[0-9]+$/
+        if (text.match(letters)) {
+            return (false)
+        }
+        return (true)
+    }
 
     ValidateEmail(mail) {
         if (/^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9.-]+)$/.test(mail)) {
             return (true)
         }
-
         return (false)
     }
 
@@ -117,7 +139,7 @@ class CardForm extends Component {
                     <div className='column-inner'>
                         <form className='box-small-inner'>
                             <h1 className='subtitle' >Información de tu tarjeta</h1>
-                      
+
                             <Cleave
                                 name='cardNumber'
                                 placeholder="Tu número de tarjeta"
@@ -220,10 +242,10 @@ class CardForm extends Component {
                                 id='phoneNumber'
                             />
                             <input
-                            id='btnSubmit'
+                                id='btnSubmit'
                                 className='donateNowButton'
                                 type='button'
-                                onClick={this.props.onSubmitButton}
+                                onClick={this.onSubmit}
                                 value='Dona ahora'
                                 disabled={this.props.btnFlag}
                             />
@@ -233,7 +255,6 @@ class CardForm extends Component {
                     </div>
                 </div>
             </div >
-//TODO agregar loguito de payU y Nuestras caritas <3
         )
     }
 }
