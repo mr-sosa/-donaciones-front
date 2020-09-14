@@ -27,6 +27,20 @@ class CardForm extends Component {
     }
 
     onCreditCardTypeChanged(type) {
+        switch(type){
+            case 'visa':
+                type = 'VISA';
+                break;
+            case 'mastercard':
+                type = 'MASTERCARD';
+                break;
+            case 'diners':
+                type = 'DINERS';
+                break;
+            case 'amex':
+                type = 'AMEX';
+                break;
+        }
         this.props.callbackFromParent('cardType', type);
     }
 

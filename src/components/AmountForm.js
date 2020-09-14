@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
 import '../App.css'
-
+import Cleave from 'cleave.js/react';
+import 'cleave.js/dist/addons/cleave-phone.co';
 
 class AmountForm extends Component {
 
 
     constructor(props) {
         super(props)
-        /*this.state = {
-        }*/
+        this.state = {
+            duration: '',
+            amount: ''
+        };
         this.onChange = this.onChange.bind(this);
         this.onClickPaymentType = this.onClickPaymentType.bind(this);
     }
@@ -19,13 +22,25 @@ class AmountForm extends Component {
         let value = event.target.value
         let key = event.target.name
 
+        this.setState({[key]: value})
+        
         switch (key) {
-            case 'duration': this.props.callbackFromParent(key, value); break;
-            case 'amount': if (value >= 10000) this.props.callbackFromParent(key, value); break;
+            case 'duration': 
+                this.props.callbackFromParent(key, value);
+                if(this.state.amount !== '') this.props.callbackFromParent('flag1','1')
+                break;
+            case 'amount': 
+                value = value.replace('$', '').replace(/,/g, "");
+                
+                if (value >= 10000) {
+                    this.props.callbackFromParent(key, value);
+                    if(this.state.duration !== '') this.props.callbackFromParent('flag1','1')
+                }
+                break;
             default: break;
         }
 
-
+        if(this.state.duration !== '') this.props.callbackFromParent('flag1','1')
     }
 
     onClickPaymentType = event => {
@@ -39,15 +54,16 @@ class AmountForm extends Component {
                 buttonOne.disabled = true
                 buttonRecurrent.disabled = false
                 list.className = 'form-input-hidden'
-                this.props.callbackFromParent('duration', '1')
-
+                this.setState({'duration': '1'})
+                this.props.callbackFromParent('duration','1');
+                if(this.state.amount !== '') this.props.callbackFromParent('flag1', '1');
                 break;
             case 'RecurrentPayment':
                 buttonOne.disabled = false
                 buttonRecurrent.disabled = true
                 list.className = 'form-input'
                 list.value = ''
-                this.props.callbackFromParent('duration', '')
+                //this.props.callbackFromParent('duration', '')
                 break;
             default: break;
         }
@@ -59,14 +75,21 @@ class AmountForm extends Component {
             < div className='box-small' >
                 <form className='form'>
                     <h1 className='subtitle' >¿Cuánto vas a donar?</h1>
-                    <input
-                        id='amount'
-                        type='number'
-                        min='10000'
-                        name='amount'
-                        className='form-input'
-                        placeholder='Monto en pesos colombianos - COP (Min: 10000)'
-                        onChange={this.onChange} />
+                        <Cleave
+                            name='amount'
+                            placeholder='Monto en pesos colombianos - COP (Min: 10000)'
+                            options={{
+                                numeral: true,
+                                numeralPositiveOnly: true,
+                                prefix: '$',
+                                noImmediatePrefix: true,
+                                numeralThousandsGroupStyle: 'thousand',
+                                numericOnly: true
+                            }}
+                            onChange={this.onChange}
+                            className='form-input'
+                        />
+                    
                     <div className='row'>
                         <div className='column-inner-buttons'>
                             <button

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import '../App.css'
-
+import Cleave from 'cleave.js/react';
+import 'cleave.js/dist/addons/cleave-phone.co';
 
 class DonatorForm extends Component {
 
@@ -56,14 +57,18 @@ class DonatorForm extends Component {
                         className='form-input'
                         placeholder='Tu nombre completo'
                         onChange={this.onChange} />
-                    <input
-                        id='idNumberClient'
-                        type='text'
+                    <Cleave
                         name='idNumberClient'
-                        className='form-input'
                         placeholder='Número de documento'
+                        options={{
+                            numeral: true,
+                            numeralPositiveOnly: true,
+                            numericOnly: true
+                        }}
                         onChange={this.onChange}
+                        className='form-input'
                     />
+                    
                     <input
                         id='emailClient'
                         type='email'
