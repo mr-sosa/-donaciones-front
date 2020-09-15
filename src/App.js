@@ -49,32 +49,32 @@ class App extends Component {
     this.setState({ [key]: value });
   }
 
-  onSubmitButton = async () =>{
-    if(this.state.Error === '2'){
+  onSubmitButton = async () => {
+    if (this.state.Error === '2') {
       alert('el valor mínimo de donación es $10000')
-    }else{
+    } else {
       //TODO aquí va el envío de datos a back
-      let resp = await fetch(ENDPOINT+"/CreateDonation", {
+      let resp = await fetch(ENDPOINT + "/CreateDonation", {
         method: "POST",
         mode: "cors",
         headers: {
-            "Content-Type": "application/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          'AmountForm':{
+          'AmountForm': {
             'duration': this.state.duration,
             'amount': this.state.amount
           },
-          'DonatorForm':{
+          'DonatorForm': {
             'fullNameClient': this.state.fullNameClient,
             'idNumberClient': this.state.idNumberClient,
             'emailClient': this.state.emailClient
           },
-          'CardForm':{
+          'CardForm': {
             'cardNumber': this.state.cardNumber,
             'expMonth': this.state.expMonth,
             'expYear': this.state.expYear,
-            'cardType': this.state.cardType, 
+            'cardType': this.state.cardType,
             'cvv': this.state.cvv,
             'cardOwner': this.state.cardOwner,
             'idOwnerNumber': this.state.idOwnerNumber,
@@ -88,7 +88,7 @@ class App extends Component {
       });
 
       //Después se crean el manejo de errores
-      if(resp.status === 201 ) { //quiere decir que todo está en orden 
+      if (resp.status === 201) { //quiere decir que todo está en orden 
         /*
         console.log('La Donación fué realizada exitosamente');
         resp = await resp.json();
@@ -99,7 +99,7 @@ class App extends Component {
         */
 
         let redirect_url = "https://aieseccolombia.org/thanksforyourdonation";
-        window.top.location.href  = redirect_url 
+        window.top.location.href = redirect_url
       }
     }
   }
@@ -120,7 +120,7 @@ class App extends Component {
       state.address !== '' &&
       state.country !== '' &&
       state.city !== '' &&
-      state.phoneNumber !== '' 
+      state.phoneNumber !== ''
     )
     if (flag1 && flag2 && flag3) {
       this.setState({ btnFlag: false })
@@ -133,29 +133,29 @@ class App extends Component {
   render() {
     //console.log(this.state)
 
-    let btnSubmit = true; 
+    let btnSubmit = true;
     let flag1 = this.state.flag1
     let flag2 = this.state.flag2
     let flag3 = this.state.flag3
-    if(flag1 === '1' && flag2 === '1' && flag3 === '1') btnSubmit = false;
-    switch(btnSubmit){
+    if (flag1 === '1' && flag2 === '1' && flag3 === '1') btnSubmit = false;
+    switch (btnSubmit) {
       default:
         btnSubmit = <div className='row'>
-                      <CardForm btnFlag={true}
-                                callbackFromParent={this.CallBack} 
-                                onSubmitButtonApp={this.onSubmitButton.bind(this)} />
-                    </div>
+          <CardForm btnFlag={true}
+            callbackFromParent={this.CallBack}
+            onSubmitButtonApp={this.onSubmitButton.bind(this)} />
+        </div>
         break;
       case false:
         btnSubmit = <div className='row'>
-                      <CardForm btnFlag={false}
-                                callbackFromParent={this.CallBack} 
-                                onSubmitButtonApp={this.onSubmitButton.bind(this)} />
-                    </div>
+          <CardForm btnFlag={false}
+            callbackFromParent={this.CallBack}
+            onSubmitButtonApp={this.onSubmitButton.bind(this)} />
+        </div>
         break;
     }
 
-    if(this.state.Error2 ==='1') alert('este campo no admite números')
+    if (this.state.Error2 === '1') alert('este campo no admite números')
 
 
     return (
@@ -187,9 +187,39 @@ class App extends Component {
             </div>
           </div>
         </div>
-        
-        {btnSubmit}
 
+        {btnSubmit}
+        <div className='box-big-invisible'>
+          <div className='row'>
+            <div className='column'>
+              <div className='box-small-inner'>
+                <div className='row'>
+                  <div className='column-inner-buttons'>
+                    <h1 className='payUText'>Esta donación está protegida por PayU</h1>
+                  </div>
+                  <div className='column-inner-buttons'>
+                    <img src={require('./data/PayU.png')} alt='' className='PayU' />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className='column'>
+              <div className='box-small-inner'>
+                <div className='row'>
+                  <div className='column-inner-buttons'>
+                    <h1 className='payUText'>App desarrollada por:</h1>
+                    <img src={require('./data/PayU.png')} alt='' className='PayU' />
+                  </div>
+                  <div className='column-inner-buttons'>
+                    <img src={require('./data/PayU.png')} alt='' className='PayU' />
+                    <img src={require('./data/PayU.png')} alt='' className='PayU' />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
