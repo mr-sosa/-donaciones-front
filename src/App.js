@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import DonatorForm from './components/DonatorForm'
-import AmountForm from './components/AmountForm'
-import CardForm from './components/CardForm'
+import DonatorForm from './Components/DonatorForm'
+import AmountForm from './Components/AmountForm'
+import CardForm from './Components/CardForm'
 
 const ENDPOINT = 'http://localhost:2000'
 
