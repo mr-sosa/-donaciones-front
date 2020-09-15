@@ -10,7 +10,7 @@ class AmountForm extends Component {
         super(props)
         this.state = {
             duration: '',
-            amount: ''
+            amount: '' 
         };
         this.onChange = this.onChange.bind(this);
         this.onClickPaymentType = this.onClickPaymentType.bind(this);
