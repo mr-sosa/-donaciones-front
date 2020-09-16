@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import '../App.css'
 import Cleave from 'cleave.js/react';
 import 'cleave.js/dist/addons/cleave-phone.co';
-
+import AlertBox from './AlertBox'
 class AmountForm extends Component {
 
 
@@ -10,7 +10,9 @@ class AmountForm extends Component {
         super(props)
         this.state = {
             duration: '',
-            amount: ''
+            amount: '',
+            A1: '1'
+
         };
         this.onChange = this.onChange.bind(this);
         this.onClickPaymentType = this.onClickPaymentType.bind(this);
@@ -21,28 +23,30 @@ class AmountForm extends Component {
         let value = event.target.value
         let key = event.target.name
 
-        this.setState({[key]: value})
-        
+        this.setState({ [key]: value })
+
         switch (key) {
-            case 'duration': 
+            case 'duration':
                 this.props.callbackFromParent(key, value);
-                if(this.state.amount !== '') this.props.callbackFromParent('flag1','1')
+                if (this.state.amount !== '') this.props.callbackFromParent('flag1', '1')
                 break;
-            case 'amount': 
+            case 'amount':
                 value = value.replace('$', '').replace(/,/g, "");
-                
+
                 if (value < 10000) {
-                    this.props.callbackFromParent('Error', '2')
-                }else{
-                    this.props.callbackFromParent('Error', '0')
+                    this.setState({ A1: '0' })
+                    this.props.callbackFromParent('E1', '2')
+                } else{
+                    this.props.callbackFromParent('E1', '0')
                     this.props.callbackFromParent(key, value);
-                    if(this.state.duration !== '') this.props.callbackFromParent('flag1','1')
+                    this.setState({ A1: '1' })
+                    if (this.state.duration !== '') this.props.callbackFromParent('flag1', '1')
                 }
                 break;
             default: break;
         }
 
-        if(this.state.duration !== '') this.props.callbackFromParent('flag1','1')
+        if (this.state.duration !== '') this.props.callbackFromParent('flag1', '1')
     }
 
     onClickPaymentType = event => {
@@ -56,16 +60,15 @@ class AmountForm extends Component {
                 buttonOne.disabled = true
                 buttonRecurrent.disabled = false
                 list.className = 'form-input-hidden'
-                this.setState({'duration': '1'})
-                this.props.callbackFromParent('duration','1');
-                if(this.state.amount !== '') this.props.callbackFromParent('flag1', '1');
+                this.setState({ 'duration': '1' })
+                this.props.callbackFromParent('duration', '1');
+                if (this.state.amount !== '') this.props.callbackFromParent('flag1', '1');
                 break;
             case 'RecurrentPayment':
                 buttonOne.disabled = false
                 buttonRecurrent.disabled = true
                 list.className = 'form-input'
                 list.value = ''
-                //this.props.callbackFromParent('duration', '')
                 break;
             default: break;
         }
@@ -73,25 +76,26 @@ class AmountForm extends Component {
     }
 
     render() {
+        console.log(this.state)
         return (
             < div className='box-small' >
                 <form className='form'>
                     <h1 className='subtitle' >¿Cuánto vas a donar?</h1>
-                        <Cleave
-                            name='amount'
-                            placeholder='Monto en pesos colombianos - COP (Min: 10000)'
-                            options={{
-                                numeral: true,
-                                numeralPositiveOnly: true,
-                                prefix: '$',
-                                noImmediatePrefix: true,
-                                numeralThousandsGroupStyle: 'thousand',
-                                numericOnly: true
-                            }}
-                            onChange={this.onChange}
-                            className='form-input'
-                        />
-                    
+                    <Cleave
+                        name='amount'
+                        placeholder='Monto en pesos colombianos - COP (Min: $10,000)'
+                        options={{
+                            numeral: true,
+                            numeralPositiveOnly: true,
+                            prefix: '$',
+                            noImmediatePrefix: true,
+                            numeralThousandsGroupStyle: 'thousand',
+                            numericOnly: true
+                        }}
+                        onChange={this.onChange}
+                        className='form-input'
+                    />
+                    <AlertBox display={this.state.A1} textAlert='el monto mínimo son $10,000' />
                     <div className='row'>
                         <div className='column-inner-buttons'>
                             <button

@@ -154,7 +154,6 @@
 
 .whiteButton {
     cursor: pointer;
-    color: #037EF3;
     height: 51px;
     width: 0px;
     margin-top: 8px;
@@ -216,6 +215,26 @@
 .bankMasterImg {
     width: 40px;
     height: 31.04px;
+}
+.column {
+    margin-bottom: 16px;
+}
+
+.alert {
+    width :100%;
+    height: fit-content;
+    margin-top: 1px;  
+    background: #fff;
+    border-color: #ccc;
+    color:red;
+    text-align: left;
+    font-family: Lato;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 12px;
+    padding-left: 8px;
+    line-height: 0px;
+    margin-left: 16px;
 }
 
 @media only screen and (min-width:0px)and (max-width:413px) {

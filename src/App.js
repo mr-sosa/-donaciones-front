@@ -3,6 +3,7 @@ import DonatorForm from './components/DonatorForm'
 import AmountForm from './components/AmountForm'
 import CardForm from './components/CardForm'
 
+
 const ENDPOINT = 'http://localhost:2000'
 
 class App extends Component {
@@ -38,6 +39,7 @@ class App extends Component {
       flag3: '0',
       Error: '0',
       Error2: '0',
+      E1: '0',
 
       btnFlag: true // este valor activa o desactiva el envìo del form
     };
@@ -146,7 +148,7 @@ class App extends Component {
             onSubmitButtonApp={this.onSubmitButton.bind(this)} />
         </div>
         break;
-      case false:
+      case '0':
         btnSubmit = <div className='row'>
           <CardForm btnFlag={false}
             callbackFromParent={this.CallBack}
@@ -155,8 +157,10 @@ class App extends Component {
         break;
     }
 
-    if (this.state.Error2 === '1') alert('este campo no admite números')
 
+
+    if (this.state.Error2 === '1') alert('este campo no admite números')
+    console.log(this.state)
 
     return (
 
@@ -209,17 +213,18 @@ class App extends Component {
                 <div className='row'>
                   <div className='column-inner-buttons'>
                     <h1 className='payUText'>App desarrollada por:</h1>
-                    <img src={require('./data/PayU.png')} alt='' className='PayU' />
+                    {/* <img src={require('./data/PayU.png')} alt='' className='PayU' /> */}
                   </div>
                   <div className='column-inner-buttons'>
-                    <img src={require('./data/PayU.png')} alt='' className='PayU' />
-                    <img src={require('./data/PayU.png')} alt='' className='PayU' />
+                    {/* <img src={require('./data/PayU.png')} alt='' className='PayU' />
+                    <img src={require('./data/PayU.png')} alt='' className='PayU' /> */}
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
       </div>
     )
   }
