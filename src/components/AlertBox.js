@@ -15,13 +15,17 @@ class AlertBox extends Component {
         let display = this.props.display
         switch (display) {
             default:
-                display = <div className='row'>
-                    <h1 className='alert'>{this.props.textAlert}</h1>
-                </div>
+                if(this.props.textAlign==='right')
+                {display = <div className='row'>
+                    <h1 className='alertRight'>{this.props.textAlert}</h1>
+                </div>}
+                else{display = <div className='row'>
+                <h1 className='alertLeft'>{this.props.textAlert}</h1>
+            </div>}
                 break;
-            case '1':
+            case '0':
                 display = <div className='row'>
-                    
+                    <h1 className='alertDisabled'>.</h1>
                 </div>
                 break;
         } return (

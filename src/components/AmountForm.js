@@ -11,7 +11,8 @@ class AmountForm extends Component {
         this.state = {
             duration: '',
             amount: '',
-            A1: '1'
+            A1: '0',
+            A2: '0'
 
         };
         this.onChange = this.onChange.bind(this);
@@ -28,25 +29,28 @@ class AmountForm extends Component {
         switch (key) {
             case 'duration':
                 this.props.callbackFromParent(key, value);
-                if (this.state.amount !== '') this.props.callbackFromParent('flag1', '1')
+                if (this.state.amount !== '') {
+                    this.setState({ A2: '0' })
+                    this.props.callbackFromParent('flag1', '1')
+                }else   this.props.callbackFromParent('flag1', '0')
                 break;
             case 'amount':
                 value = value.replace('$', '').replace(/,/g, "");
 
                 if (value < 10000) {
-                    this.setState({ A1: '0' })
-                    this.props.callbackFromParent('E1', '2')
-                } else{
-                    this.props.callbackFromParent('E1', '0')
-                    this.props.callbackFromParent(key, value);
                     this.setState({ A1: '1' })
+                    this.props.callbackFromParent(key, '');
+                    this.props.callbackFromParent('flag1', '0')
+
+                } else {
+                    this.props.callbackFromParent(key, value);
+                    this.setState({ A1: '0' })
                     if (this.state.duration !== '') this.props.callbackFromParent('flag1', '1')
+                    else  this.props.callbackFromParent('flag1', '0')
                 }
                 break;
             default: break;
         }
-
-        if (this.state.duration !== '') this.props.callbackFromParent('flag1', '1')
     }
 
     onClickPaymentType = event => {
@@ -62,6 +66,7 @@ class AmountForm extends Component {
                 list.className = 'form-input-hidden'
                 this.setState({ 'duration': '1' })
                 this.props.callbackFromParent('duration', '1');
+                this.setState({ A2: '0' })
                 if (this.state.amount !== '') this.props.callbackFromParent('flag1', '1');
                 break;
             case 'RecurrentPayment':
@@ -69,6 +74,8 @@ class AmountForm extends Component {
                 buttonRecurrent.disabled = true
                 list.className = 'form-input'
                 list.value = ''
+                this.setState({ A2: '1' })
+                this.props.callbackFromParent('flag1', '0');
                 break;
             default: break;
         }
@@ -76,7 +83,6 @@ class AmountForm extends Component {
     }
 
     render() {
-        console.log(this.state)
         return (
             < div className='box-small' >
                 <form className='form'>
@@ -95,7 +101,10 @@ class AmountForm extends Component {
                         onChange={this.onChange}
                         className='form-input'
                     />
-                    <AlertBox display={this.state.A1} textAlert='el monto mínimo son $10,000' />
+                    <AlertBox
+                        display={this.state.A1}
+                        textAlert='el monto mínimo son $10,000'
+                        textAlign='left' />
                     <div className='row'>
                         <div className='column-inner-buttons'>
                             <button
@@ -133,7 +142,12 @@ class AmountForm extends Component {
                             <option value='3'>3 Meses</option>
                             <option value='1'>1 Mes</option>
                         </select>
+                        <AlertBox
+                            display={this.state.A2}
+                            textAlert='Por favor eliga una duración'
+                            textAlign='left' />
                     </div>
+
                 </form>
             </div >
 

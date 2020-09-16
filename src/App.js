@@ -37,10 +37,7 @@ class App extends Component {
       city: '',
       phoneNumber: '',
       flag3: '0',
-      Error: '0',
-      Error2: '0',
-      E1: '0',
-
+    
       btnFlag: true // este valor activa o desactiva el envìo del form
     };
     this.CallBack = this.CallBack.bind(this);
@@ -52,58 +49,56 @@ class App extends Component {
   }
 
   onSubmitButton = async () => {
-    if (this.state.Error === '2') {
-      alert('el valor mínimo de donación es $10000')
-    } else {
-      //TODO aquí va el envío de datos a back
-      let resp = await fetch(ENDPOINT + "/CreateDonation", {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
+
+    //TODO aquí va el envío de datos a back
+    let resp = await fetch(ENDPOINT + "/CreateDonation", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        'AmountForm': {
+          'duration': this.state.duration,
+          'amount': this.state.amount
         },
-        body: JSON.stringify({
-          'AmountForm': {
-            'duration': this.state.duration,
-            'amount': this.state.amount
-          },
-          'DonatorForm': {
-            'fullNameClient': this.state.fullNameClient,
-            'idNumberClient': this.state.idNumberClient,
-            'emailClient': this.state.emailClient
-          },
-          'CardForm': {
-            'cardNumber': this.state.cardNumber,
-            'expMonth': this.state.expMonth,
-            'expYear': this.state.expYear,
-            'cardType': this.state.cardType,
-            'cvv': this.state.cvv,
-            'cardOwner': this.state.cardOwner,
-            'idOwnerNumber': this.state.idOwnerNumber,
-            'ownerEmail': this.state.ownerEmail,
-            'address': this.state.address,
-            'country': this.state.country,
-            'city': this.state.city,
-            'phoneNumber': this.state.phoneNumber
-          }
-        })
-      });
+        'DonatorForm': {
+          'fullNameClient': this.state.fullNameClient,
+          'idNumberClient': this.state.idNumberClient,
+          'emailClient': this.state.emailClient
+        },
+        'CardForm': {
+          'cardNumber': this.state.cardNumber,
+          'expMonth': this.state.expMonth,
+          'expYear': this.state.expYear,
+          'cardType': this.state.cardType,
+          'cvv': this.state.cvv,
+          'cardOwner': this.state.cardOwner,
+          'idOwnerNumber': this.state.idOwnerNumber,
+          'ownerEmail': this.state.ownerEmail,
+          'address': this.state.address,
+          'country': this.state.country,
+          'city': this.state.city,
+          'phoneNumber': this.state.phoneNumber
+        }
+      })
+    });
 
-      //Después se crean el manejo de errores
-      if (resp.status === 201) { //quiere decir que todo está en orden 
-        /*
-        console.log('La Donación fué realizada exitosamente');
-        resp = await resp.json();
-        console.log('planCode: '+resp.planCode)
-        console.log('clientId: '+resp.id)
-        console.log('token: '+resp.token)
-        console.log('subscriptionId: '+resp.subscriptionId)
-        */
+    //Después se crean el manejo de errores
+    if (resp.status === 201) { //quiere decir que todo está en orden 
+      /*
+      console.log('La Donación fué realizada exitosamente');
+      resp = await resp.json();
+      console.log('planCode: '+resp.planCode)
+      console.log('clientId: '+resp.id)
+      console.log('token: '+resp.token)
+      console.log('subscriptionId: '+resp.subscriptionId)
+      */
 
-        let redirect_url = "https://aieseccolombia.org/thanksforyourdonation";
-        window.top.location.href = redirect_url
-      }
+      let redirect_url = "https://aieseccolombia.org/thanksforyourdonation";
+      window.top.location.href = redirect_url
     }
+
   }
 
 
@@ -133,13 +128,14 @@ class App extends Component {
 
 
   render() {
-    //console.log(this.state)
+
 
     let btnSubmit = true;
     let flag1 = this.state.flag1
     let flag2 = this.state.flag2
     let flag3 = this.state.flag3
     if (flag1 === '1' && flag2 === '1' && flag3 === '1') btnSubmit = false;
+    console.log('SUBMIT? ' + btnSubmit)
     switch (btnSubmit) {
       default:
         btnSubmit = <div className='row'>
@@ -159,10 +155,9 @@ class App extends Component {
 
 
 
-    if (this.state.Error2 === '1') alert('este campo no admite números')
     console.log(this.state)
-
     return (
+
 
       <div className='all'>
         <div className='box-big-invisible'>

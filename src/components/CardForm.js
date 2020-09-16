@@ -3,6 +3,7 @@ import '../App.css'
 import Countries from '../data/countries.json'
 import Cleave from 'cleave.js/react';
 import 'cleave.js/dist/addons/cleave-phone.co';
+import AlertBox from './AlertBox'
 
 
 
@@ -13,28 +14,26 @@ class CardForm extends Component {
             month = (today.getMonth() + 1),
             year = (today.getYear() - 100);
         this.state = {
-            cardNumber: '',
-            expMonth: '',
-            expYear: '',
-            cardType: '',
-            cvv: '',
-            cardOwner: '',
-            idOwnerNumber: '',
-            ownerEmail: '',
-            address: '',
-            country: '',
-            city: '',
-            phoneNumber: '',
+            A1: '0', cardNumber: '',
+            A2: '0', expMonth: '', expYear: '',
+            A3: '0', cardType: '',
+            A4: '0', cvv: '',
+            A5: '0', cardOwner: '',
+            A6: '0', idOwnerNumber: '',
+            A7: '0', ownerEmail: '',
+            A8: '0', address: '',
+            A9: '1', country: '',
+            A10: '0', A12: '0', city: '',
+            A11: '0', phoneNumber: '',
             date: '',
             month: month,
             year: year,
-            error: 0
         }
         this.onChange = this.onChange.bind(this);
         this.onCreditCardTypeChanged = this.onCreditCardTypeChanged.bind(this);
     }
     onCreditCardTypeChanged(type) {
-        switch(type){
+        switch (type) {
             case 'visa':
                 type = 'VISA';
                 break;
@@ -51,11 +50,11 @@ class CardForm extends Component {
                 type = '';
                 break;
         }
-        this.setState({'cardType': type})
+        this.setState({ 'cardType': type })
         this.props.callbackFromParent('cardType', type)
     }
 
-    onSubmit = (event) =>{
+    onSubmit = (event) => {
         this.props.onSubmitButtonApp();
     }
 
@@ -63,17 +62,21 @@ class CardForm extends Component {
         let value = event.target.value
         let key = event.target.name
 
-        this.setState({[key]: value})
+        this.setState({ [key]: value })
 
         switch (key) {
             case 'cardNumber':
-                if ((event.target.rawValue).length >= 14){
+                if ((event.target.rawValue).length >= 14) {
                     this.props.callbackFromParent(key, event.target.rawValue);
-                    if(this.check(key)){
-                        this.props.callbackFromParent('flag3','1')
-                    }
+                    this.setState({ A1: '0' })
+                    if (this.check(key)) {
+                        this.props.callbackFromParent('flag3', '1')
+                    } else { this.props.callbackFromParent('flag3', '0') }
                 }
-                else { this.props.callbackFromParent(key, ''); }
+                else {
+                    this.props.callbackFromParent(key, '');
+                    this.setState({ A1: '1' })
+                }
                 break;
             case 'expDate':
                 let x = (value + "").split("/")
@@ -86,30 +89,32 @@ class CardForm extends Component {
 
                     } else if (yearIn === year) {
                         if (monthIn > month) {
-                            this.setState({'expMonth':monthIn});
-                            this.setState({'expYear':yearIn});
+                            this.setState({ 'expMonth': monthIn });
+                            this.setState({ 'expYear': yearIn });
                             this.props.callbackFromParent("expYear", x[1]);
                             this.props.callbackFromParent("expMonth", x[0]);
-                            this.setState({ error: 0 })
-                            if(this.check(key)){
-                                this.props.callbackFromParent('flag3','1')
-                            }
+                            this.setState({ A2: '0' })
+                            if (this.check(key)) {
+                                this.props.callbackFromParent('flag3', '1')
+                            } else { this.props.callbackFromParent('flag3', '0') }
                         } else {
                             this.props.callbackFromParent("expYear", '');
                             this.props.callbackFromParent("expMonth", '');
+                            this.setState({ A2: '1' })
                         }
                     } else if (yearIn > year) {
-                        this.setState({'expMonth':monthIn});
-                        this.setState({'expYear':yearIn});
+                        this.setState({ 'expMonth': monthIn });
+                        this.setState({ 'expYear': yearIn });
                         this.props.callbackFromParent("expYear", x[1]);
                         this.props.callbackFromParent("expMonth", x[0]);
-                        if(this.check(key)){
-                            this.props.callbackFromParent('flag3','1')
+                        this.setState({ A2: '0' })
+                        if (this.check(key)) {
+                            this.props.callbackFromParent('flag3', '1')
                         }
                     } else {
                         this.props.callbackFromParent("expYear", '');
                         this.props.callbackFromParent("expMonth", '');
-
+                        this.setState({ A2: '1' })
                     }
                 }
                 break;
@@ -117,74 +122,86 @@ class CardForm extends Component {
 
                 if (value.length > 2) {
                     this.props.callbackFromParent(key, value);
-                    if(this.check(key)){
-                        this.props.callbackFromParent('flag3','1')
-                    }
+                    this.setState({ A4: '0' })
+                    if (this.check(key)) {
+                        this.props.callbackFromParent('flag3', '1')
+                    } else { this.props.callbackFromParent('flag3', '0') }
                 } else {
                     this.props.callbackFromParent(key, '');
+                    this.setState({ A4: '1' })
                 }
                 break;
             case 'cardOwner':
                 if (this.ValidateOnlyText(value)) {
                     this.props.callbackFromParent(key, value);
-                    this.props.callbackFromParent('Error2', '0');
-                    if(this.check(key)){
-                        this.props.callbackFromParent('flag3','1')
-                    }
+
+                    this.setState({ A5: '0' })
+                    if (this.check(key)) {
+                        this.props.callbackFromParent('flag3', '1')
+                    } else { this.props.callbackFromParent('flag3', '0') }
                 } else {
-                    this.props.callbackFromParent('Error2', '1')
                     document.getElementById(key).value = ''
+                    this.setState({ A5: '1' })
                 }
                 break;
             case 'idOwnerNumber':
-                if (value.length > 5 && value.length < 30){
+                if (value.length > 5 && value.length < 30) {
                     this.props.callbackFromParent(key, value);
-                    if(this.check(key)){
-                        this.props.callbackFromParent('flag3','1')
-                    }
-                }
+                    this.setState({ A6: '0' })
+                    if (this.check(key)) {
+                        this.props.callbackFromParent('flag3', '1')
+                    } else { this.props.callbackFromParent('flag3', '0') }
+                } else this.setState({ A6: '1' })
                 break;
             case 'ownerEmail':
                 if (this.ValidateEmail(value)) {
                     this.props.callbackFromParent(key, value);
-                    if(this.check(key)){
-                        this.props.callbackFromParent('flag3','1')
-                    }
-                }
+                    this.setState({ A7: '0' })
+                    if (this.check(key)) {
+                        this.props.callbackFromParent('flag3', '1')
+                    } else { this.props.callbackFromParent('flag3', '0') }
+                } else this.setState({ A7: '1' })
                 break;
             case 'address':
+                if (value !== '') this.setState({ A8: '0' })
+                else this.setState({ A8: '1' })
                 this.props.callbackFromParent(key, value);
-                if(this.check(key)){
-                    this.props.callbackFromParent('flag3','1')
-                }
+                if (this.check(key)) {
+                    this.props.callbackFromParent('flag3', '1')
+                } else { this.props.callbackFromParent('flag3', '0') }
                 break;
             case 'country':
+                if (value !== '') this.setState({ A9: '0' })
+                else this.setState({ A9: '1' })
                 this.props.callbackFromParent(key, value);
-                if(this.check(key)){
-                    this.props.callbackFromParent('flag3','1')
-                }
+                if (this.check(key)) {
+                    this.props.callbackFromParent('flag3', '1')
+                } else { this.props.callbackFromParent('flag3', '0') }
                 break;
             case 'city':
+                if (value !== '') this.setState({ A10: '0' })
+                else this.setState({ A10: '1' })
                 if (this.ValidateOnlyText(value)) {
+                    this.setState({ A12: '0' })
                     this.props.callbackFromParent(key, value);
-                    this.props.callbackFromParent('Error2', '0');
-                    if(this.check(key)){
-                        this.props.callbackFromParent('flag3','1')
-                    }
+                    if (this.check(key)) {
+                        this.props.callbackFromParent('flag3', '1')
+                    } else { this.props.callbackFromParent('flag3', '0') }
                 } else {
-                    this.props.callbackFromParent('Error2', '1')
+                    this.setState({ A12: '1' })
                     document.getElementById(key).value = ''
                 }
                 break;
             case 'phoneNumber':
+                if (value !== '') this.setState({ A11: '0' })
+                else this.setState({ A11: '1' })
                 this.props.callbackFromParent(key, value);
-                if(this.check(key)){
-                    this.props.callbackFromParent('flag3','1')
-                }
+                if (this.check(key)) {
+                    this.props.callbackFromParent('flag3', '1')
+                } else { this.props.callbackFromParent('flag3', '0') }
                 break;
             default: break;
         }
-        this.forceUpdate();
     }
 
     ValidateOnlyText(text) {
@@ -202,7 +219,7 @@ class CardForm extends Component {
         return (false)
     }
 
-    check(key){
+    check(key) {
 
         let cardNumber = (this.state.cardNumber !== '');
         let expMonth = (this.state.expMonth !== '');
@@ -220,11 +237,11 @@ class CardForm extends Component {
         //console.log('cardNumber-'+cardNumber+'-expMonth-'+expMonth+'-expYear-'+expYear+'-cardType-'+cardType+'-cvv-'+cvv+'-cardOwner-'+cardOwner+'-idOwnerNumber-'+idOwnerNumber+'-ownerEmail-'+ownerEmail+'-address-'+address+'-country-'+country+'-city-'+city+'-phoneNumber-'+phoneNumber)
 
         // eslint-disable-next-line
-        switch(key){
+        switch (key) {
             case 'cardNumber':
                 return (expMonth && expYear && cardType && cvv && cardOwner && idOwnerNumber && ownerEmail && address && country && city && phoneNumber)
             case 'expDate':
-                return (cardNumber && cardType && cvv && cardOwner && idOwnerNumber && ownerEmail && address && country && city && phoneNumber)   
+                return (cardNumber && cardType && cvv && cardOwner && idOwnerNumber && ownerEmail && address && country && city && phoneNumber)
             case 'cardType':
                 return (cardNumber && expMonth && expYear && cvv && cardOwner && idOwnerNumber && ownerEmail && address && country && city && phoneNumber)
             case 'cvv':
@@ -264,6 +281,10 @@ class CardForm extends Component {
                                 onChange={this.onChange}
                                 className='form-input'
                             />
+                            <AlertBox
+                                display={this.state.A1}
+                                textAlert='La tarjeta debe tener entre 14 y 16 dígitos'
+                                textAlign='left' />
 
                             <div className='row'>
                                 <Cleave
@@ -287,6 +308,17 @@ class CardForm extends Component {
                                     onChange={this.onChange}
                                     className='cvv'
                                 />
+                                <div className='row'>
+                                    <AlertBox
+                                        display={this.state.A4}
+                                        textAlert='El CCV tiene minimo 3 digitos'
+                                        textAlign='right' />
+
+                                    <AlertBox
+                                        display={this.state.A2}
+                                        textAlert='La fecha debe ser posterior a la actual'
+                                        textAlign='left' />
+                                </div>
                             </div>
 
                             <input
@@ -296,6 +328,11 @@ class CardForm extends Component {
                                 onChange={this.onChange}
                                 className='form-input'
                                 placeholder='Titular de la tarjeta' />
+                            <AlertBox
+                                display={this.state.A5}
+                                textAlert='Por favor indique el nombre del propietario de la tarjeta'
+                                textAlign='left' />
+
 
                             <Cleave
                                 name='idOwnerNumber'
@@ -307,6 +344,12 @@ class CardForm extends Component {
                                 onChange={this.onChange}
                                 className='form-input'
                                 id='idOwnerNumber' />
+                            <AlertBox
+                                display={this.state.A6}
+                                textAlert='El documento debe tener entre 5 y 30 caracteres'
+                                textAlign='left' />
+
+
                             <input
                                 name='ownerEmail'
                                 id='ownerEmail'
@@ -314,6 +357,11 @@ class CardForm extends Component {
                                 className='form-input'
                                 placeholder='Correo electrónico'
                                 onChange={this.onChange} />
+                            <AlertBox
+                                display={this.state.A7}
+                                textAlert='Ingrese un correo válido'
+                                textAlign='left' />
+
                         </form>
                     </div>
                     <div className='column-inner'>
@@ -326,10 +374,16 @@ class CardForm extends Component {
                                 className='form-input'
                                 placeholder='Dirección '
                                 onChange={this.onChange} />
+                            <AlertBox
+                                display={this.state.A8}
+                                textAlert='Campo obligatorio'
+                                textAlign='left' />
+
                             <select className='form-input'
                                 id='country'
                                 name='country'
                                 onChange={this.onChange}>
+
 
                                 <option value="" defaultValue hidden>
                                     País
@@ -338,6 +392,10 @@ class CardForm extends Component {
                                     return <option key={index} value={countriesDetail.iso2} >{countriesDetail.name} </option>
                                 })}
                             </select>
+                            <AlertBox
+                                display={this.state.A9}
+                                textAlert='Por favor elija un país'
+                                textAlign='left' />
 
                             <input
                                 id='city'
@@ -346,6 +404,14 @@ class CardForm extends Component {
                                 className='form-input'
                                 placeholder='Ciudad'
                                 onChange={this.onChange} />
+                            <AlertBox
+                                display={this.state.A10}
+                                textAlert='Campo obligatorio'
+                                textAlign='left' />
+                            <AlertBox
+                                display={this.state.A12}
+                                textAlert='Este campo no admite números'
+                                textAlign='left' />
 
                             <Cleave
                                 placeholder='Número de teléfono celular'
@@ -355,6 +421,10 @@ class CardForm extends Component {
                                 name='phoneNumber'
                                 id='phoneNumber'
                             />
+                            <AlertBox
+                                display={this.state.A11}
+                                textAlert='Campo obligatorio'
+                                textAlign='left' />
                             <input
                                 id='btnSubmit'
                                 className='donateNowButton'
@@ -363,6 +433,7 @@ class CardForm extends Component {
                                 value='Dona ahora'
                                 disabled={this.props.btnFlag}
                             />
+
 
                         </form>
 
