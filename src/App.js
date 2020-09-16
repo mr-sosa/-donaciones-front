@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import DonatorForm from './components/DonatorForm'
-import AmountForm from './components/AmountForm'
-import CardForm from './components/CardForm'
+import DonatorForm from './Components/DonatorForm'
+import AmountForm from './Components/AmountForm'
+import CardForm from './Components/CardForm'
 
 
 const ENDPOINT = 'http://localhost:2000'
@@ -86,9 +86,9 @@ class App extends Component {
 
     //Después se crean el manejo de errores
     if (resp.status === 201) { //quiere decir que todo está en orden 
-      /*
+      
       console.log('La Donación fué realizada exitosamente');
-      resp = await resp.json();
+      /*resp = await resp.json();
       console.log('planCode: '+resp.planCode)
       console.log('clientId: '+resp.id)
       console.log('token: '+resp.token)
@@ -98,7 +98,11 @@ class App extends Component {
       let redirect_url = "https://aieseccolombia.org/thanksforyourdonation";
       window.top.location.href = redirect_url
     }
-
+    else{
+      resp = await resp.json();
+      console.log(resp);
+    }
+    
   }
 
 
@@ -135,7 +139,7 @@ class App extends Component {
     let flag2 = this.state.flag2
     let flag3 = this.state.flag3
     if (flag1 === '1' && flag2 === '1' && flag3 === '1') btnSubmit = false;
-    console.log('SUBMIT? ' + btnSubmit)
+    //console.log('SUBMIT? ' + btnSubmit)
     switch (btnSubmit) {
       default:
         btnSubmit = <div className='row'>
@@ -144,7 +148,7 @@ class App extends Component {
             onSubmitButtonApp={this.onSubmitButton.bind(this)} />
         </div>
         break;
-      case '0':
+      case false:
         btnSubmit = <div className='row'>
           <CardForm btnFlag={false}
             callbackFromParent={this.CallBack}
@@ -155,7 +159,7 @@ class App extends Component {
 
 
 
-    console.log(this.state)
+    //console.log(this.state)
     return (
 
 
@@ -202,21 +206,22 @@ class App extends Component {
                 </div>
               </div>
             </div>
-
+            {/*
             <div className='column'>
               <div className='box-small-inner'>
                 <div className='row'>
                   <div className='column-inner-buttons'>
                     <h1 className='payUText'>App desarrollada por:</h1>
-                    {/* <img src={require('./data/PayU.png')} alt='' className='PayU' /> */}
+                    {/* <img src={require('./data/PayU.png')} alt='' className='PayU' /> /}
                   </div>
                   <div className='column-inner-buttons'>
                     {/* <img src={require('./data/PayU.png')} alt='' className='PayU' />
-                    <img src={require('./data/PayU.png')} alt='' className='PayU' /> */}
+                    <img src={require('./data/PayU.png')} alt='' className='PayU' /> /}
                   </div>
                 </div>
               </div>
             </div>
+            */}
           </div>
         </div>
 
