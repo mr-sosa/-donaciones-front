@@ -4,7 +4,7 @@ import AmountForm from './Components/AmountForm'
 import CardForm from './Components/CardForm'
 
 
-const ENDPOINT = 'http://localhost:2000'
+const ENDPOINT = 'https://aieseccolombia.org:8442'
 
 class App extends Component {
 
@@ -142,17 +142,21 @@ class App extends Component {
     //console.log('SUBMIT? ' + btnSubmit)
     switch (btnSubmit) {
       default:
-        btnSubmit = <div className='row'>
-          <CardForm btnFlag={true}
-            callbackFromParent={this.CallBack}
-            onSubmitButtonApp={this.onSubmitButton.bind(this)} />
+        btnSubmit = <div className='box-big-invisible'>
+          <div className='row'>
+            <CardForm btnFlag={true}
+              callbackFromParent={this.CallBack}
+              onSubmitButtonApp={this.onSubmitButton.bind(this)} />
+          </div>
         </div>
         break;
       case false:
-        btnSubmit = <div className='row'>
-          <CardForm btnFlag={false}
-            callbackFromParent={this.CallBack}
-            onSubmitButtonApp={this.onSubmitButton.bind(this)} />
+        btnSubmit = <div className='box-big-invisible'>
+          <div className='row'>
+            <CardForm btnFlag={false}
+              callbackFromParent={this.CallBack}
+              onSubmitButtonApp={this.onSubmitButton.bind(this)} />
+          </div>
         </div>
         break;
     }
@@ -195,7 +199,7 @@ class App extends Component {
         <div className='box-big-invisible'>
           <div className='row'>
             <div className='column'>
-              <div className='box-small-inner'>
+              <div className='box-small'>
                 <div className='row'>
                   <div className='column-inner-buttons'>
                     <h1 className='payUText'>Esta donación está protegida por PayU</h1>
@@ -206,25 +210,44 @@ class App extends Component {
                 </div>
               </div>
             </div>
-            {/*
+
             <div className='column'>
-              <div className='box-small-inner'>
+              <div className='box-small'>
                 <div className='row'>
-                  <div className='column-inner-buttons'>
-                    <h1 className='payUText'>App desarrollada por:</h1>
-                    {/* <img src={require('./data/PayU.png')} alt='' className='PayU' /> /}
+                  <h1 className='developedByText'>Developed for AIESEC in Colombia by:</h1>
+                </div>
+                <div className='row'>
+                  <div className='column-inner-2'>
+                    <div className='box-small-inner-2'>
+                      <div className='Team_Manu'>
+                        <img src={require('./data/Icon_Manu.png')} alt='' className='Icon_Manu' /> 
+                        <h1 className='namesText'>Manuel Sosa <br/> Project Manager</h1>
+                      </div>
+                      <br/>
+                      <div className='Team_Gise'>
+                        <img src={require('./data/Icon_Gise.png')} alt='' className='Icon_Gise' /> 
+                        <h1 className='namesText'>Gisell Hernandez <br/> Back-end developer</h1>
+                      </div>
+                    </div>
                   </div>
-                  <div className='column-inner-buttons'>
-                    {/* <img src={require('./data/PayU.png')} alt='' className='PayU' />
-                    <img src={require('./data/PayU.png')} alt='' className='PayU' /> /}
+                  <div className='column-inner-2'>
+                    <div className='box-small-inner-2'>
+                      <div className='Team_Andre'>
+                        <img src={require('./data/Icon_Andre.png')} alt='' className='Icon_Andre' /> 
+                        <h1 className='namesText'>Andrés Castro <br/> Front-end developer</h1>
+                      </div>
+                      <br/>
+                      <div className='Team_Manny'>
+                        <img src={require('./data/Icon_Manny.png')} alt='' className='Icon_Manny' /> 
+                        <h1 className='namesText'>Emanuel Álvarez <br/> Country Brand Manager</h1>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            */}
-          </div>
+          </div>    
         </div>
-
       </div>
     )
   }

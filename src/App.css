@@ -105,6 +105,102 @@
     color: #5E5E5E;
 }
 
+.developedByText {
+    position: relative;
+    text-align: left;
+    height: 17px;
+    left: 15px;
+    font-family: Lato;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #5E5E5E;
+}
+
+.namesText {
+    position: relative;
+    width: 200px;
+    height: 34px;
+    left: 47px;
+    top: -48px;
+    font-family: Lato;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 17px;
+    color: #5E5E5E;
+}
+
+.Icon_Andre {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    left: 2px;
+    top: 1px;
+}
+
+.Icon_Gise {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    left: 2px;
+    top: 1px;
+}
+
+.Icon_Manny {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    left: 2px;
+    top: 1px;
+}
+
+.Icon_Manu {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    left: 2px;
+    top: 1px;
+}
+
+.Team_Manu {
+    text-align: left;
+    height: 40px;
+    left: 7px;
+    top: -2px;
+}
+.Team_Andre {
+    text-align: left;
+    height: 40px;
+    left: 7px;
+    top: -2px;
+}
+.Team_Gise {
+    text-align: left;
+    height: 40px;
+    left: 7px;
+    top: 7px;
+}
+.Team_Manny {
+    text-align: left;
+    height: 40px;
+    left: 7px;
+    top: 7px;
+}
+
+.box-small-inner-2 {
+    height: min-content;
+    text-align: center;
+    background: #FFFFFF;
+    border-radius: 16px;
+    position: relative;
+    padding: 8px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
 .title {
     width: 100%;
     height: 100%;
@@ -316,6 +412,21 @@
     .whiteButton {
         display: none;
     }
+    .column-inner-2 {
+        display: none;
+    }
+    .Team_Manu {
+        display: none;
+    }
+    .Team_Andre {
+        display: none;
+    }
+    .Team_Gise {
+        display: none;
+    }
+    .Team_Manny {
+        display: none;
+    }
 }
 
 @media only screen and (min-width:414px)and (max-width:767px) {
@@ -445,6 +556,42 @@
         border: 1px solid #ccc;
         border-radius: 10px;
     }
+    .column-inner-2 {
+        width: 100%;
+        background: #FFFFFF;
+        text-align: center;
+        float: left;
+        padding: 0px;
+        height: max-content;
+    }
+    .Team_Manu {
+        position: relative;
+        text-align: left;
+        height: 40px;
+        left: 25%;
+        top: 1px;
+    }
+    .Team_Andre {
+        position: relative;
+        text-align: left;
+        height: 40px;
+        left: 25%;
+        top: 1px;
+    }
+    .Team_Gise {
+        position: relative;
+        text-align: left;
+        height: 40px;
+        left: 25%;
+        top: 1px;
+    }
+    .Team_Manny {
+        position: relative;
+        text-align: left;
+        height: 40px;
+        left: 25%;
+        top: 3px;
+    }
 }
 
 @media only screen and (min-width:768px)and (max-width:1023px) {
@@ -573,6 +720,37 @@
         background: #F6F6F6;
         border: 1px solid #ccc;
         border-radius: 10px;
+    }
+    .column-inner-2 {
+        background: #ffffff;
+        float: left;
+        width: 50%;
+        padding: 0px;
+        height: max-content;
+    }
+    .Team_Manu {
+        text-align: left;
+        height: 40px;
+        left: 7px;
+        top: -2px;
+    }
+    .Team_Andre {
+        text-align: left;
+        height: 40px;
+        left: 7px;
+        top: -2px;
+    }
+    .Team_Gise {
+        text-align: left;
+        height: 40px;
+        left: 7px;
+        top: 7px;
+    }
+    .Team_Manny {
+        text-align: left;
+        height: 40px;
+        left: 7px;
+        top: 7px;
     }
 }
 
@@ -713,6 +891,37 @@
         border: 1px solid #ccc;
         border-radius: 10px;
     }
+    .column-inner-2 {
+        background: #ffffff;
+        float: left;
+        width: 50%;
+        padding: 0px;
+        height: max-content;
+    }
+    .Team_Manu {
+        text-align: left;
+        height: 40px;
+        left: 7px;
+        top: -2px;
+    }
+    .Team_Andre {
+        text-align: left;
+        height: 40px;
+        left: 7px;
+        top: -2px;
+    }
+    .Team_Gise {
+        text-align: left;
+        height: 40px;
+        left: 7px;
+        top: 7px;
+    }
+    .Team_Manny {
+        text-align: left;
+        height: 40px;
+        left: 7px;
+        top: 7px;
+    }
 }
 
 @media only screen and (min-width:1440px) {
@@ -851,5 +1060,36 @@
         background: #F6F6F6;
         border: 1px solid #ccc;
         border-radius: 10px;
+    }
+    .column-inner-2 {
+        background: #ffffff;
+        float: left;
+        width: 50%;
+        padding: 0px;
+        height: max-content;
+    }
+    .Team_Manu {
+        text-align: left;
+        height: 40px;
+        left: 7px;
+        top: -2px;
+    }
+    .Team_Andre {
+        text-align: left;
+        height: 40px;
+        left: 7px;
+        top: -2px;
+    }
+    .Team_Gise {
+        text-align: left;
+        height: 40px;
+        left: 7px;
+        top: 7px;
+    }
+    .Team_Manny {
+        text-align: left;
+        height: 40px;
+        left: 7px;
+        top: 7px;
     }
 }
